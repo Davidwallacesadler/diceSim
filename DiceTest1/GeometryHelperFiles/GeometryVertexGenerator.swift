@@ -10,7 +10,7 @@ import Foundation
 import SceneKit
 
 struct GeometryVertexGenerator {
-    
+    /// Returns an array of vectors which define the vertices of a tetrahedron sized proportionally to the size number passed in.
     static func generateTetrahedronVertices(size: Double) -> [SCNVector3] {
         let vertices: [SCNVector3] = [
             SCNVector3(size, size, size),
@@ -20,7 +20,7 @@ struct GeometryVertexGenerator {
             ]
         return vertices
     }
-    
+    /// Returns an array of vectors which define the vertices of a octahedron sized proportionally to the height and width numbers passed in.
     static func generateOctahedronVertices(height: Double, width: Double) -> [SCNVector3] {
         let vertices: [SCNVector3] = [
             SCNVector3(0, height, 0),
@@ -32,7 +32,7 @@ struct GeometryVertexGenerator {
         ]
         return vertices
     }
-    
+    /// Returns an array of vectors which define the vertices of a icosahedron sized proportionally to the size number passed in.
     static func generateIcosahedronVertices(size: Double) -> [SCNVector3] {
         let phi = ((1.0 + sqrt(5.0)) / 2.0)
         let a = (0.5) * size
@@ -53,7 +53,7 @@ struct GeometryVertexGenerator {
         ]
         return vertices
     }
-    
+    /// Returns an array of vectors which define the vertices of a dodecahedron sized proportionally to the size number passed in.
     static func generateDodecahedronVertices(size: Double) -> [SCNVector3] {
          let phi = ((1.0 + sqrt(5.0)) / 2.0)
         let b = ((1.0 / phi) * size)

@@ -9,7 +9,6 @@
 import Foundation
 
 enum Keys {
-    
     // MARK: - 3D Model Keys (for bit mask setup - see physicsHelper)
     static let cubeName = "cube"
     static let tetrahedronName = "tetra"
@@ -17,4 +16,11 @@ enum Keys {
     static let icosahedronName = "icosa"
     static let dodecahedronName = "dodeca"
     static let wallName = "wall"
+    
+    //MARK: - Collada SceneKitAsset Names
+    static let customCube = "SceneKitAssets.scnassets/cube.scn"
+    static let customTetrahedron = "SceneKitAssets.scnassets/tetrahedron.scn"
+    static let customOctahedron = "SceneKitAssets.scnassets/octahedron.scn"
+    static let customIcosahedron = "SceneKitAssets.scnassets/icosahedron.scn"
+    static let customDodecahedron = "SceneKitAssets.scnassets/dodecahedron.scn"
 }

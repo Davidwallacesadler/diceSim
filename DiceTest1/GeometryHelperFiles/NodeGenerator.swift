@@ -10,7 +10,7 @@ import Foundation
 import SceneKit
 
 struct NodeGenerator {
-    
+    /// Returns an SCNNode for a given geometry object.
     static func createNodeGivenGeometry(_ geometry: Geometry) -> SCNNode {
         let geometrySource = SCNGeometrySource(vertices: geometry.vertices)
         let geometryElement = SCNGeometryElement(indices: geometry.indicies, primitiveType: .triangles)

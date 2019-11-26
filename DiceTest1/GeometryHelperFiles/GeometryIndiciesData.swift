@@ -11,10 +11,16 @@ import SceneKit
 
 enum GeometryIndiciesData {
     static let tetrahedronIndices: [UInt16] = [
-        0, 1, 2,
-        1, 2, 3,
-        0, 2, 3,
-        0, 3, 1
+        0, 1, 2, //1
+        1, 2, 3, //2
+        0, 2, 3, //3
+        0, 3, 1  //4
+    ]
+    static let tetrahedronSides: [String:String] = [
+        "012": "1",
+        "123": "2",
+        "023": "3",
+        "031": "4"
     ]
     static let octahedronIndices: [UInt16] = [
         0, 1, 2,
@@ -25,6 +31,16 @@ enum GeometryIndiciesData {
         2, 5, 3,
         3, 5, 4,
         4, 5, 1
+    ]
+    static let octahedronSides: [String:String] = [
+        "012": "1",
+        "230": "2",
+        "340": "3",
+        "410": "4",
+        "152": "5",
+        "253": "6",
+        "354": "1",
+        "451": "1",
     ]
     static let icosahedronIndices: [UInt16] = [
         11, 4, 6,

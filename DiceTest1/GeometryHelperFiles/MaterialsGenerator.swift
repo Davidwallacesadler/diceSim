@@ -10,7 +10,7 @@ import Foundation
 import SceneKit
 
 struct MaterialsGenerator {
-    
+    /// Applies materials to the geometry based on it's key and it's associated Scene Node.
     static func generateMaterialsArray(givenGeometryKey: String, targetNode: SCNNode) {
         var materials = [SCNMaterial]()
         var numberOfFaces: Int
@@ -26,6 +26,7 @@ struct MaterialsGenerator {
         case Keys.dodecahedronName:
             numberOfFaces = 30
         default:
+            numberOfFaces = 1
             return
         }
         for i in 1...numberOfFaces {

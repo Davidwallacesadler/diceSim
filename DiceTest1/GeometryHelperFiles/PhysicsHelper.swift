@@ -15,6 +15,7 @@ struct PhysicsHelper {
     
     // MAKE THIS SETUP ALL PHYSICS JUST MAKE THE DYNAMIC / KINETIC / STATIC BASED ON KEY --
     // ??? IS this a good use for keys?
+    /// Sets up the Geometry node's physics body to have Dynamic Physics (the body is affected by all collisions).
     static func setupDynamicNodePhysics(selectedNode: SCNNode, bitMaskKey: String) {
         
         guard let nodeGeometry = selectedNode.geometry else {
@@ -60,6 +61,7 @@ struct PhysicsHelper {
         }
     }
     
+    /// Sets up the Geometry node's physics body to have Kinetic Physics (the body itself doesn't get affected by collisions, but it can cause collisions for another body).
     static func setupKineticNodePhysics(containerNode: SCNNode) {
         guard let containerGeometry = containerNode.geometry else {
             print("Static Node Physics Error: Found nil when unwrapping container node geometry.")

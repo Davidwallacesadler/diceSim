@@ -8,6 +8,7 @@
 
 import Foundation
 
+// TODO: - Add a case for just the "cup"
 enum BodyType: Int {
     case tetrahedron = 1
     case container = 2

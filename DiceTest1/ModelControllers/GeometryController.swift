@@ -17,11 +17,11 @@ class GeometryController {
     
     // MARK: - CRUD
     
-     func initializeGeometry(givenVertices: [SCNVector3], givenIndices: [UInt16], givenNormals: [SCNVector3]?) -> Geometry {
-        guard let normals = givenNormals else {
-            return Geometry(vertices: givenVertices, indicies: givenIndices, normals: nil)
+    func initializeGeometry(givenVertices: [SCNVector3], givenIndices: [UInt16], givenNormals: [SCNVector3]?, givenSideInfo: [String:String]?) -> Geometry {
+        guard let normals = givenNormals, let sideInfo = givenSideInfo else {
+            return Geometry(vertices: givenVertices, indicies: givenIndices, normals: nil, sideInfo: nil)
         }
-        return Geometry(vertices: givenVertices, indicies: givenIndices, normals: normals)
+        return Geometry(vertices: givenVertices, indicies: givenIndices, normals: normals, sideInfo: sideInfo)
     }
     
     
