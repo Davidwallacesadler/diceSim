@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="p1D-Ir-SjQ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -8,23 +8,120 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Navigation Controller-->
-        <scene sceneID="Wpm-oB-Iwt">
+        <!--Dice Selection View Controller-->
+        <scene sceneID="Gk2-07-QPL">
             <objects>
-                <navigationController id="p1D-Ir-SjQ" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Mkj-xh-nDe">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
+                <viewController id="Tql-Fe-pSX" customClass="DiceSelectionViewController" customModule="DiceTest1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="FlJ-vH-s5a">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hUd-lM-WUQ">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                <color key="backgroundColor" red="0.92377298476968794" green="0.28372116965744548" blue="0.30258567263139163" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="vuY-NZ-G6Q"/>
+                                </constraints>
+                                <state key="normal" title="Apply Changes">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="applyButtonPressed:" destination="Tql-Fe-pSX" eventType="touchUpInside" id="PQV-wC-OJC"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="0Kx-jI-bTQ">
+                                <rect key="frame" x="0.0" y="50" width="320" height="150"/>
+                                <subviews>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M2b-tX-Zv4" userLabel="DiceKindPickerView">
+                                        <rect key="frame" x="0.0" y="0.0" width="160" height="150"/>
+                                    </pickerView>
+                                    <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rgI-cM-5Wj" userLabel="DiceCountPickerView">
+                                        <rect key="frame" x="160" y="0.0" width="160" height="150"/>
+                                    </pickerView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="S3B-LK-ZPV"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="0Kx-jI-bTQ" firstAttribute="leading" secondItem="t3v-gG-HtZ" secondAttribute="leading" id="KUd-1s-nAD"/>
+                            <constraint firstItem="hUd-lM-WUQ" firstAttribute="leading" secondItem="t3v-gG-HtZ" secondAttribute="leading" id="a1G-Ju-QnL"/>
+                            <constraint firstItem="t3v-gG-HtZ" firstAttribute="trailing" secondItem="hUd-lM-WUQ" secondAttribute="trailing" id="hDU-Y1-aJa"/>
+                            <constraint firstItem="0Kx-jI-bTQ" firstAttribute="top" secondItem="hUd-lM-WUQ" secondAttribute="bottom" id="lmB-Cc-rQl"/>
+                            <constraint firstItem="hUd-lM-WUQ" firstAttribute="top" secondItem="t3v-gG-HtZ" secondAttribute="top" id="lrd-Ms-SzC"/>
+                            <constraint firstAttribute="trailing" secondItem="0Kx-jI-bTQ" secondAttribute="trailing" id="wwe-0M-lY1"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="t3v-gG-HtZ"/>
+                    </view>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="xJs-8n-Il6"/>
+                        <outlet property="diceCountPickerView" destination="rgI-cM-5Wj" id="u5l-vZ-tW8"/>
+                        <outlet property="diceTypePickerView" destination="M2b-tX-Zv4" id="rHX-1l-I6N"/>
                     </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="gi9-QN-s1J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="f9i-iX-XE6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-861" y="17"/>
+            <point key="canvasLocation" x="63.75" y="-692.95774647887322"/>
         </scene>
-        <!--Shake It Baby-->
+        <!--Dice Settings View Controller-->
+        <scene sceneID="nKX-RA-VN7">
+            <objects>
+                <viewController id="ClX-I0-cQp" customClass="DiceSettingsViewController" customModule="DiceTest1" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="cTb-Xw-DYX">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="548"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yBu-e2-rTh">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="37"/>
+                                <color key="backgroundColor" red="0.92377298480000003" green="0.2837211697" blue="0.30258567260000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="yBu-e2-rTh" secondAttribute="height" multiplier="320:37" id="nID-DJ-y7h"/>
+                                </constraints>
+                                <state key="normal" title="Apply Changes">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="applyButtonPressed:" destination="ClX-I0-cQp" eventType="touchUpInside" id="gRV-Uo-y9t"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nDP-6G-lN8">
+                                <rect key="frame" x="0.0" y="37" width="320" height="511"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="zEP-HO-em8">
+                                        <rect key="frame" x="0.0" y="28" width="320" height="100"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zEP-HO-em8" id="cAV-C1-Yy7">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="yBu-e2-rTh" firstAttribute="top" secondItem="gQD-nZ-sBJ" secondAttribute="top" id="3nm-fP-3Lh"/>
+                            <constraint firstItem="nDP-6G-lN8" firstAttribute="top" secondItem="yBu-e2-rTh" secondAttribute="bottom" id="XOm-Vd-tYu"/>
+                            <constraint firstItem="nDP-6G-lN8" firstAttribute="leading" secondItem="gQD-nZ-sBJ" secondAttribute="leading" id="dDO-ed-va5"/>
+                            <constraint firstItem="nDP-6G-lN8" firstAttribute="bottom" secondItem="gQD-nZ-sBJ" secondAttribute="bottom" id="eQV-X1-lSl"/>
+                            <constraint firstItem="yBu-e2-rTh" firstAttribute="leading" secondItem="gQD-nZ-sBJ" secondAttribute="leading" id="o8e-Wz-ssh"/>
+                            <constraint firstItem="nDP-6G-lN8" firstAttribute="trailing" secondItem="gQD-nZ-sBJ" secondAttribute="trailing" id="xr1-a1-l8w"/>
+                            <constraint firstItem="yBu-e2-rTh" firstAttribute="trailing" secondItem="gQD-nZ-sBJ" secondAttribute="trailing" id="z1d-Oi-90h"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="gQD-nZ-sBJ"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="3GQ-it-y4V"/>
+                    <connections>
+                        <outlet property="tableView" destination="nDP-6G-lN8" id="yVv-nZ-IEf"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l3E-iY-bTv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1033" y="-26"/>
+        </scene>
+        <!--Dice Roll-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="DiceTest1" customModuleProvider="target" sceneMemberID="viewController">
@@ -33,7 +130,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <sceneKitView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="47z-It-EJo">
-                                <rect key="frame" x="0.0" y="44" width="320" height="524"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </sceneKitView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -45,226 +142,20 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Shake It Baby" id="eyb-VQ-iAH">
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="REn-Hq-sHe">
+                    <navigationItem key="navigationItem" title="Dice Roll" id="eyb-VQ-iAH">
+                        <barButtonItem key="leftBarButtonItem" title="Settings" id="REn-Hq-sHe">
                             <connections>
-                                <segue destination="J3K-ie-xKb" kind="show" id="1iT-t3-75h"/>
+                                <segue destination="ClX-I0-cQp" kind="presentation" id="nEZ-Gm-Kgd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="Tql-Fe-pSX" kind="presentation" identifier="toShowSlideIn" id="32N-g3-yBw"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="52.5" y="26.408450704225352"/>
-        </scene>
-        <!--Settings Table View Controller-->
-        <scene sceneID="8TW-GJ-HWf">
-            <objects>
-                <tableViewController id="J3K-ie-xKb" customClass="SettingsTableViewController" customModule="DiceTest1" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="9rr-FQ-g43">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <sections>
-                            <tableViewSection headerTitle="Regular Dice Count" id="Vac-8i-MBv">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="FG7-1F-s7w">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="FG7-1F-s7w" id="nGG-PO-gD3">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dPB-FC-6Eq">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="dPB-FC-6Eq" secondAttribute="bottom" id="Do1-cu-cnn"/>
-                                                <constraint firstItem="dPB-FC-6Eq" firstAttribute="top" secondItem="nGG-PO-gD3" secondAttribute="top" id="EUA-ix-dVd"/>
-                                                <constraint firstAttribute="trailing" secondItem="dPB-FC-6Eq" secondAttribute="trailing" id="ZAN-Z1-f0X"/>
-                                                <constraint firstItem="dPB-FC-6Eq" firstAttribute="leading" secondItem="nGG-PO-gD3" secondAttribute="leading" id="zfH-9h-WTo"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="Tetrahedron Count" id="5fH-Rp-ltg">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="diz-qC-mAq">
-                                        <rect key="frame" x="0.0" y="128" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="diz-qC-mAq" id="pGD-5k-A2w">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PZM-1i-mWQ">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="PZM-1i-mWQ" secondAttribute="bottom" id="Aez-OW-9e3"/>
-                                                <constraint firstAttribute="trailing" secondItem="PZM-1i-mWQ" secondAttribute="trailing" id="QnZ-k9-HTp"/>
-                                                <constraint firstItem="PZM-1i-mWQ" firstAttribute="leading" secondItem="pGD-5k-A2w" secondAttribute="leading" id="maW-qt-Af4"/>
-                                                <constraint firstItem="PZM-1i-mWQ" firstAttribute="top" secondItem="pGD-5k-A2w" secondAttribute="top" id="wvd-TN-AyK"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="" id="YmQ-Zx-eQ1">
-                                <cells/>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="Octahedron Count" id="Iiv-WS-S83">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="JbD-XW-A8D">
-                                        <rect key="frame" x="0.0" y="284" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="JbD-XW-A8D" id="zwA-Ez-1ft">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pPJ-kI-sm3">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="pPJ-kI-sm3" secondAttribute="bottom" id="Av4-wH-aaW"/>
-                                                <constraint firstItem="pPJ-kI-sm3" firstAttribute="leading" secondItem="zwA-Ez-1ft" secondAttribute="leading" id="XjL-Aa-UPy"/>
-                                                <constraint firstItem="pPJ-kI-sm3" firstAttribute="top" secondItem="zwA-Ez-1ft" secondAttribute="top" id="hTb-bb-8BP"/>
-                                                <constraint firstAttribute="trailing" secondItem="pPJ-kI-sm3" secondAttribute="trailing" id="y0e-rG-XSU"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="Icosahedron Count" id="fmh-u1-Jan">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="G0z-O5-KQV">
-                                        <rect key="frame" x="0.0" y="384" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="G0z-O5-KQV" id="Hep-Ww-3rP">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Ucf-bv-fx3">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="Ucf-bv-fx3" firstAttribute="top" secondItem="Hep-Ww-3rP" secondAttribute="top" id="4fE-mA-2uQ"/>
-                                                <constraint firstAttribute="bottom" secondItem="Ucf-bv-fx3" secondAttribute="bottom" id="Rse-iR-wXA"/>
-                                                <constraint firstItem="Ucf-bv-fx3" firstAttribute="leading" secondItem="Hep-Ww-3rP" secondAttribute="leading" id="YyK-qW-eX9"/>
-                                                <constraint firstAttribute="trailing" secondItem="Ucf-bv-fx3" secondAttribute="trailing" id="ZcW-u3-7IB"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="Dodecahedron Count" id="DYx-vk-LEj">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="2La-K0-Wow">
-                                        <rect key="frame" x="0.0" y="484" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="2La-K0-Wow" id="qcd-S8-1Uf">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2yq-JW-cxE">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstAttribute="trailing" secondItem="2yq-JW-cxE" secondAttribute="trailing" id="0xk-om-x4c"/>
-                                                <constraint firstAttribute="bottom" secondItem="2yq-JW-cxE" secondAttribute="bottom" id="Vyv-e2-3d4"/>
-                                                <constraint firstItem="2yq-JW-cxE" firstAttribute="top" secondItem="qcd-S8-1Uf" secondAttribute="top" id="cHW-bB-ogz"/>
-                                                <constraint firstItem="2yq-JW-cxE" firstAttribute="leading" secondItem="qcd-S8-1Uf" secondAttribute="leading" id="cbB-KN-zP5"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                            <tableViewSection headerTitle="Floor Texture" id="KOw-iH-PHh">
-                                <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="100" id="1ny-r6-uc7">
-                                        <rect key="frame" x="0.0" y="584" width="320" height="100"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="1ny-r6-uc7" id="S42-rB-SN9">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kjo-8i-Y5w">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
-                                                </textField>
-                                                <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="LyS-un-6rf">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
-                                                    <subviews>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AEJ-rX-1uh">
-                                                            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                                                            <color key="backgroundColor" red="1" green="0.65745048279999996" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <state key="normal" title="Carpet"/>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="17W-fN-Q4o">
-                                                            <rect key="frame" x="110" y="0.0" width="100" height="100"/>
-                                                            <color key="backgroundColor" red="0.061801642419999997" green="1" blue="0.016920798809999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <state key="normal" title="Wood"/>
-                                                        </button>
-                                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TFv-xV-1eM">
-                                                            <rect key="frame" x="220" y="0.0" width="100" height="100"/>
-                                                            <color key="backgroundColor" red="0.83881265859999998" green="0.41372389459999998" blue="0.26379570829999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            <state key="normal" title="Marble"/>
-                                                        </button>
-                                                    </subviews>
-                                                </stackView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="LyS-un-6rf" firstAttribute="leading" secondItem="S42-rB-SN9" secondAttribute="leading" id="0Jx-J8-P56"/>
-                                                <constraint firstAttribute="trailing" secondItem="kjo-8i-Y5w" secondAttribute="trailing" id="6y2-k4-oMl"/>
-                                                <constraint firstItem="kjo-8i-Y5w" firstAttribute="leading" secondItem="S42-rB-SN9" secondAttribute="leading" id="ChV-sr-BdH"/>
-                                                <constraint firstItem="LyS-un-6rf" firstAttribute="top" secondItem="S42-rB-SN9" secondAttribute="top" id="YdE-66-anO"/>
-                                                <constraint firstAttribute="bottom" secondItem="LyS-un-6rf" secondAttribute="bottom" id="eNN-6h-cxn"/>
-                                                <constraint firstAttribute="trailing" secondItem="LyS-un-6rf" secondAttribute="trailing" id="hmF-Vr-Mm6"/>
-                                                <constraint firstAttribute="bottom" secondItem="kjo-8i-Y5w" secondAttribute="bottom" id="x4T-6a-PVw"/>
-                                                <constraint firstItem="kjo-8i-Y5w" firstAttribute="top" secondItem="S42-rB-SN9" secondAttribute="top" id="yho-TQ-tmw"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
-                        <connections>
-                            <outlet property="dataSource" destination="J3K-ie-xKb" id="vAR-mZ-s3P"/>
-                            <outlet property="delegate" destination="J3K-ie-xKb" id="rQD-oI-CIz"/>
-                        </connections>
-                    </tableView>
-                    <connections>
-                        <outlet property="diceCountPicker" destination="g1K-Mj-L7Q" id="VFF-RZ-VnR"/>
-                        <outlet property="dodecahedronDiceCountTextField" destination="2yq-JW-cxE" id="KyH-pc-uvF"/>
-                        <outlet property="icosahedronDiceCountTextField" destination="Ucf-bv-fx3" id="Oua-0E-QAg"/>
-                        <outlet property="octahedronDiceCountTextField" destination="pPJ-kI-sm3" id="s7R-2R-GZY"/>
-                        <outlet property="regularDiceCountTextField" destination="dPB-FC-6Eq" id="dDx-1s-EBr"/>
-                        <outlet property="tetrahedronDiceCountTextField" destination="PZM-1i-mWQ" id="dYX-bv-Cwk"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yy9-qu-WFb" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <pickerView contentMode="scaleToFill" id="g1K-Mj-L7Q">
-                    <rect key="frame" x="0.0" y="0.0" width="414" height="216"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                </pickerView>
-            </objects>
-            <point key="canvasLocation" x="950" y="29"/>
+            <point key="canvasLocation" x="64" y="114"/>
         </scene>
     </scenes>
 </document>

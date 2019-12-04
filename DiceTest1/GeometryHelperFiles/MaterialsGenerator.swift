@@ -31,7 +31,7 @@ struct MaterialsGenerator {
         }
         for i in 1...numberOfFaces {
             let material = SCNMaterial()
-            material.diffuse.contents = UIImage(named: "\(givenGeometryKey)\(i)")
+            material.diffuse.contents = UIImage(named: "\(givenGeometryKey)\(i)_white")
             materials.append(material)
         }
         targetNode.geometry?.materials = materials

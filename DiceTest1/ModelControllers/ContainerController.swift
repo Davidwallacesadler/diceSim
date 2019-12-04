@@ -86,6 +86,8 @@ class ContainerController {
         var containerNodeArray = [SCNNode]()
         let parentNode = SCNNode()
         for geometry in faces {
+//            let geometryNode = SCNNode(geometry: geometry)
+//            geometryNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named:"cube1")!
             containerNodeArray.append(SCNNode(geometry: geometry))
         }
         for node in containerNodeArray {
@@ -172,6 +174,82 @@ class ContainerController {
         }
     return parentNode
     }
+    
+    static func createDiceNode(container: Container) -> SCNNode  {
+           
+               // TODO: - USE THE NEW METHOD TO MAKE SCNGEOMETRY
+           func geometrySetup(vertices: [SCNVector3], element: SCNGeometryElement) -> SCNGeometry {
+               let geometrySource = SCNGeometrySource(vertices: vertices)
+               let geometry = SCNGeometry(sources: [geometrySource], elements: [element])
+               geometry.firstMaterial?.isDoubleSided = false
+               geometry.firstMaterial?.diffuse.contents = UIColor.gray
+               geometry.firstMaterial?.transparencyMode = .singleLayer
+               return geometry
+           }
+           var faces = [SCNGeometry]()
+           let length = container.x / 2.0
+           let height = container.y / 2.0
+           let width = container.z / 2.0
+           let planeIndices: [UInt16] = [
+               0, 1, 2,
+               2, 3, 0
+           ]
+           let planeElement = SCNGeometryElement(indices: planeIndices, primitiveType: .triangles)
+           let rightSideVertices: [SCNVector3] = [
+               SCNVector3(length, height, width),
+               SCNVector3(length, -height, width),
+               SCNVector3(length, -height, -width),
+               SCNVector3(length, height, -width)
+           ]
+           let frontSideVertices: [SCNVector3] = [
+               SCNVector3(-length, height, width),
+               SCNVector3(-length, -height, width),
+               SCNVector3(length, -height, width),
+               SCNVector3(length, height, width)
+           ]
+           let leftSideVertices: [SCNVector3] = [
+               SCNVector3(-length, -height, -width),
+               SCNVector3(-length, -height, width),
+               SCNVector3(-length, height, width),
+               SCNVector3(-length, height, -width)
+           ]
+           let backSideVertices: [SCNVector3] = [
+               SCNVector3(length, height, -width),
+               SCNVector3(length, -height, -width),
+               SCNVector3(-length, -height, -width),
+               SCNVector3(-length, height, -width)
+           ]
+           let topSideVertices: [SCNVector3] = [
+               SCNVector3(-length, height, -width),
+               SCNVector3(-length, height, width),
+               SCNVector3(length, height, width),
+               SCNVector3(length, height, -width)
+           ]
+           let bottomSideVertices: [SCNVector3] = [
+               SCNVector3(length, -height, width),
+               SCNVector3(length, -height, -width),
+               SCNVector3(-length, -height, -width),
+               SCNVector3(-length, -height, width)
+           ]
+           faces.append(geometrySetup(vertices: rightSideVertices, element: planeElement))
+           faces.append(geometrySetup(vertices: frontSideVertices, element: planeElement))
+           faces.append(geometrySetup(vertices: leftSideVertices, element: planeElement))
+           faces.append(geometrySetup(vertices: backSideVertices, element: planeElement))
+           faces.append(geometrySetup(vertices: topSideVertices, element: planeElement))
+           faces.append(geometrySetup(vertices: bottomSideVertices, element: planeElement))
+           
+           var containerNodeArray = [SCNNode]()
+           let parentNode = SCNNode()
+           for geometry in faces {
+               containerNodeArray.append(SCNNode(geometry: geometry))
+           }
+           for node in containerNodeArray {
+               parentNode.addChildNode(node)
+               
+           }
+        PhysicsHelper.setupDynamicNodePhysics(selectedNode: parentNode, bitMaskKey: Keys.cubeName)
+           return parentNode
+           }
 }
 
 
