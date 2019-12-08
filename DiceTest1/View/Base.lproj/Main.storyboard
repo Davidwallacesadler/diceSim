@@ -85,15 +85,15 @@
                                     <action selector="applyButtonPressed:" destination="ClX-I0-cQp" eventType="touchUpInside" id="gRV-Uo-y9t"/>
                                 </connections>
                             </button>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="100" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nDP-6G-lN8">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="50" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="nDP-6G-lN8">
                                 <rect key="frame" x="0.0" y="37" width="320" height="511"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="zEP-HO-em8">
-                                        <rect key="frame" x="0.0" y="28" width="320" height="100"/>
+                                        <rect key="frame" x="0.0" y="28" width="320" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zEP-HO-em8" id="cAV-C1-Yy7">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -119,7 +119,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l3E-iY-bTv" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1033" y="-26"/>
+            <point key="canvasLocation" x="996" y="113"/>
         </scene>
         <!--Dice Roll-->
         <scene sceneID="tne-QT-ifu">
@@ -145,7 +145,7 @@
                     <navigationItem key="navigationItem" title="Dice Roll" id="eyb-VQ-iAH">
                         <barButtonItem key="leftBarButtonItem" title="Settings" id="REn-Hq-sHe">
                             <connections>
-                                <segue destination="ClX-I0-cQp" kind="presentation" id="nEZ-Gm-Kgd"/>
+                                <segue destination="ClX-I0-cQp" kind="presentation" identifier="toShowDiceSettings" id="nEZ-Gm-Kgd"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

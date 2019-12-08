@@ -10,103 +10,66 @@ import SceneKit
 import SpriteKit
 import CoreMotion
 
-
-// TODO: - NEED TO STREAMLINE SCENE SETUP - BE ABLE TO SPAWN IN AT LEAST 2 SHAPES - BREAK APART VIEW SETUP
 protocol SceneKitDiceDelegate {
     func updateDiceSelection(diceKind: String, diceCount: Int)
 }
+protocol DiceSettingsDelegate {
+    func updateSpawnedDice(dicePathsAndCounds: [(String,Int)])
+}
 
-class ViewController: UIViewController, SCNPhysicsContactDelegate, SceneKitDiceDelegate {
+class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsDelegate {
     
-    func updateDiceSelection(diceKind: String, diceCount: Int) {
-        var diceNodes = [SCNNode]()
-        self.currentDiceCount = diceCount
-        switch diceKind {
-            case Keys.customCube:
-                selectedDiceKey = Keys.customCube
-                for i in 1...diceCount {
-                    if i == 1 {
-                        diceNodes.append(ColladaHelper.colladaToSCNNode(filepath: Keys.customCube))
-                    } else {
-                        diceNodes.append(ColladaHelper.colladaToSCNNode(filepath: Keys.customCube))
-                        guard let differentBodyType = bodyTypes[i] else { return }
-                        PhysicsHelper.setupDynamicNodePhysics(selectedNode: diceNodes[i - 1], bitMaskKey: differentBodyType)
-                    }
-                }
-            case Keys.customTetrahedron:
-                selectedDiceKey = Keys.customTetrahedron
-                for _ in 1...diceCount {
-                    diceNodes.append(ColladaHelper.colladaToSCNNode(filepath: Keys.customTetrahedron))
-                }
-            case Keys.customDodecahedron:
-                selectedDiceKey = Keys.customDodecahedron
-                for _ in 1...diceCount {
-                    diceNodes.append(ColladaHelper.colladaToSCNNode(filepath: Keys.customDodecahedron))
-                }
-            case Keys.customOctahedron:
-                selectedDiceKey = Keys.customOctahedron
-                for _ in 1...diceCount {
-                    diceNodes.append(ColladaHelper.colladaToSCNNode(filepath: Keys.customOctahedron))
-                }
-            case Keys.customIcosahedron:
-                selectedDiceKey = Keys.customIcosahedron
-                for _ in 1...diceCount {
-                    diceNodes.append(ColladaHelper.colladaToSCNNode(filepath: Keys.customIcosahedron))
-                }
-            case Keys.customD10:
-                selectedDiceKey = Keys.customD10
+    func updateSpawnedDice(dicePathsAndCounds: [(String, Int)]) {
+        var newDiceNodes = [SCNNode]()
+        self.currentDiceNamesAndCounts = []
+        for pathAndCount in dicePathsAndCounds {
+            let filePath = pathAndCount.0
+            let diceCount = pathAndCount.1
             for _ in 1...diceCount {
-                diceNodes.append(ColladaHelper.colladaToSCNNode(filepath: Keys.customD10))
+                newDiceNodes.append(ColladaHelper.colladaToSCNNode(filepath: filePath))
             }
-            default:
-            return
+            switch filePath {
+                case Keys.customTetrahedron:
+                self.currentDiceNamesAndCounts.append(("D4", diceCount))
+                case Keys.customCube:
+                self.currentDiceNamesAndCounts.append(("D6", diceCount))
+                case Keys.customOctahedron:
+                self.currentDiceNamesAndCounts.append(("D8", diceCount))
+                case Keys.customD10:
+                self.currentDiceNamesAndCounts.append(("D10", diceCount))
+                case Keys.customDodecahedron:
+                self.currentDiceNamesAndCounts.append(("D12", diceCount))
+                case Keys.customIcosahedron:
+                self.currentDiceNamesAndCounts.append(("D20", diceCount))
+                default:
+                print("ERROR: Passed in filePath in updateSpawnedDice in VC is Defaulting - no resulting tracking of the dice")
+            }
         }
         for node in self.diceNodes {
             GeometrySpawnHelper.removeShape(fromScene: scene!, geometryNode: node)
         }
-        self.diceNodes = diceNodes
+        self.diceNodes = newDiceNodes
         for nodeIndexPair in self.diceNodes.enumerated() {
             let zVectorComponent = nodeIndexPair.offset
             GeometrySpawnHelper.spawnNodeIntoSceneAtPostion(parentScene: scene!, geometryNode: nodeIndexPair.element, atPosition: SCNVector3(0, 0, zVectorComponent))
         }
     }
-    
-    
-    // MARK: - PhysicsContactDelegate Methods
-    
-    
-//    func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
-//        // IDEA: Check when the dice have come in contact with the container and if they are at rest we could find the orthonormal vector to the container floor; U, and calculate the cross product forthe planes of the geometry; [V]. I.E for each V Find where U Cross V = 0 (Where U || V ).
-//        //contact.nodeA.physicsBody?.isResting
-//       // print("Collision with floor")
-//        // NODE A SEEMS TO BE WALL
-//        guard let nodeBPhysicsBodyVelocity = contact.nodeB.physicsBody?.velocity else { return }
-//        // JUST CHECK NODE B - SEEMS TO BE THE
-////        print("NODE A: \(nodeAPhysicsBody.velocity)")
-////         print("NODE B: \(nodeBPhysicsBody.velocity)")
-//        let xVelocity = nodeBPhysicsBodyVelocity.x
-//        let yVelocity = nodeBPhysicsBodyVelocity.y
-//        let zVelocity = nodeBPhysicsBodyVelocity.z
-//        let velocityThreshold: Float = 0.0000001
-//        if xVelocity <= velocityThreshold && yVelocity <= velocityThreshold && zVelocity <= velocityThreshold {
-//            // NOW CHECK IF THE DICE ARE FAR AWAY FROM EACHOTHER -- IF SO PULL THEM TOGETHER WITH FORCES?
-//        DistanceHelper.moveNodesTogetherIfSpreadPassedThreshold(nodeA: diceNode, nodeB: dice2Node, threshold: 2.0)
-//        }
-//    }
+
     
     // MARK: - Internal Properties
-    let bodyTypes = [2: Keys.tetrahedronName, 3: Keys.octahedronName, 4: Keys.icosahedronName, 5: Keys.dodecahedronName]
+
     lazy var slideInTransitioningDelegate = SlideInPresentationManager()
-    var diceContainerNode = SCNNode()
     var scene: SCNScene?
+    var sceneView: SCNView?
     let insideDiceNode = SCNNode()
     let motionManager = CMMotionManager()
     var rollTimer: Timer?
     var rollButtonPressed = false
     var diceNodes = [SCNNode]()
     var selectedDiceKey: String = Keys.customD10
-    var currentDiceCount = 2
     var cameraNode: SCNNode?
+    var cameraLookAtNode: SCNNode?
+    var currentDiceNamesAndCounts = [("D10", 2)]
     
     // MARK: - Computed Properties
     
@@ -130,116 +93,123 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, SceneKitDiceD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // MARK: - Scene
-     
+        setupSceneAndWorldPhysics()
+        setupRoomContainer()
+        setupCamera()
+        setupLights()
+        setupHUDButtons()
+        spawnInitialDice()
+    }
+    
+    // MARK: - Internal Methods
+    
+    private func setupSceneAndWorldPhysics() {
         let sceneView = SCNView(frame: self.view.frame)
         self.view.addSubview(sceneView)
         let scene = SCNScene()
-        self.scene = scene
         sceneView.scene = scene
-        //sceneView.allowsCameraControl = true
-//        sceneView.defaultCameraController.interactionMode = .orbitTurntable
-//        sceneView.scene?.physicsWorld.contactDelegate = self
         sceneView.scene?.physicsWorld.gravity = SCNVector3(0,-20,0)
         sceneView.scene?.physicsWorld.contactDelegate = self
-        
-        // MARK: - Camera
-        
+        self.scene = scene
+        self.sceneView = sceneView
+    }
+    
+    private func setupCamera() {
+        guard let currentScene = scene else { return }
         let camera = SCNCamera()
         camera.fieldOfView = CGFloat(Float(90.0))
         let cameraNode = SCNNode()
         cameraNode.camera = camera
         cameraNode.position = SCNVector3(x: 12, y: 7, z: 0)
-        scene.rootNode.addChildNode(cameraNode)
-        //self.camera = camera
+        currentScene.rootNode.addChildNode(cameraNode)
+        guard let floorNode = cameraLookAtNode else { return }
+        let constraint = SCNLookAtConstraint(target: floorNode)
+        constraint.isGimbalLockEnabled = true
+        var constraints = [SCNConstraint]()
+        constraints.append(constraint)
+        cameraNode.constraints = constraints
         self.cameraNode = cameraNode
-        
-        // MARK: - Lights
-        
+    }
+    
+    private func setupLights() {
+        guard let currentScene = scene else { return }
         let light = SCNLight()
         let lightTwo = SCNLight()
         lightTwo.temperature = 3000
         light.type = SCNLight.LightType.omni
         lightTwo.type = SCNLight.LightType.omni
-        lightTwo.castsShadow = true
+        lightTwo.castsShadow = false
         let lightNode = SCNNode()
         let lightTwoNode = SCNNode()
         lightNode.light = light
         lightTwoNode.light = lightTwo
         lightNode.position = SCNVector3(x: 0, y: 11, z: 0)
         lightTwoNode.position = SCNVector3(x: 0, y: 12, z: 3)
-        scene.rootNode.addChildNode(lightNode)
-        scene.rootNode.addChildNode(lightTwoNode)
-        
-        // MARK: - HUD
-        
-        sceneView.overlaySKScene = SKScene(size: CGSize(width: self.view.frame.width, height: self.view.frame.height))
-        sceneView.overlaySKScene?.isHidden = false
-        sceneView.overlaySKScene?.scaleMode = SKSceneScaleMode.resizeFill
-        sceneView.overlaySKScene?.isUserInteractionEnabled = true
-        
+        currentScene.rootNode.addChildNode(lightNode)
+        currentScene.rootNode.addChildNode(lightTwoNode)
+    }
+    
+    private func setupHUDButtons() {
+        guard let currentSceneView = sceneView else { return }
+        currentSceneView.overlaySKScene = SKScene(size: CGSize(width: self.view.frame.width, height: self.view.frame.height))
+        currentSceneView.overlaySKScene?.isHidden = false
+        currentSceneView.overlaySKScene?.scaleMode = SKSceneScaleMode.resizeFill
+        currentSceneView.overlaySKScene?.isUserInteractionEnabled = true
         let infoButton = UIButton(frame: CGRect(x: self.view.bounds.maxX - ((self.view.bounds.maxX / 3.0) - 4.0), y: 27.0, width: (self.view.bounds.maxX / 3.0) - 4.0, height: 75.0))
         infoButton.backgroundColor = UIColor(hue: 1.0, saturation: 1.0, brightness: 0, alpha: 0.2)
         infoButton.imageView?.contentMode = .scaleAspectFit
         infoButton.setImage(UIImage(named: "infoButtonIcon"), for: .normal)
         infoButton.tintColor = .white
         ViewHelper.roundCornersOf(viewLayer: infoButton.layer, withRoundingCoefficient: 3.0)
-        sceneView.addSubview(infoButton)
-        
+        currentSceneView.addSubview(infoButton)
         let appSettingsButton = UIButton(frame: CGRect(x: (self.view.bounds.maxX / 3) + 2.0, y: 27.0, width: (self.view.bounds.maxX / 3) - 4.0, height: 75.0))
         appSettingsButton.backgroundColor = UIColor(hue: 1.0, saturation: 1.0, brightness: 0, alpha: 0.2)
         appSettingsButton.imageView?.contentMode = .scaleAspectFit
         appSettingsButton.setImage(UIImage(named: "appSettingsIcon"), for: .normal)
         appSettingsButton.tintColor = .white
         ViewHelper.roundCornersOf(viewLayer: appSettingsButton.layer, withRoundingCoefficient: 3.0)
-        sceneView.addSubview(appSettingsButton)
-
+        currentSceneView.addSubview(appSettingsButton)
+        appSettingsButton.addTarget(self, action: #selector(settingsButtonPressed(_:)), for: .touchDown)
         let diceSelectionButton = UIButton(frame: CGRect(x: 2.0, y: 27, width:(self.view.bounds.maxX / 3) - 4.0, height: 75.0))
         diceSelectionButton.backgroundColor = UIColor(hue: 1.0, saturation: 1.0, brightness: 0, alpha: 0.2)
         diceSelectionButton.imageView?.contentMode = .scaleAspectFit
         diceSelectionButton.setImage(UIImage(named: "diceSettingsIcon"), for: .normal)
         diceSelectionButton.tintColor = .white
         ViewHelper.roundCornersOf(viewLayer: diceSelectionButton.layer, withRoundingCoefficient: 3.0)
-        sceneView.addSubview(diceSelectionButton)
+        currentSceneView.addSubview(diceSelectionButton)
         diceSelectionButton.addTarget(self, action: #selector(displaySlideIn(_:)), for: .touchDown)
-        
         let panLeftButton = UIButton(frame: CGRect(x: 2.0, y: view.frame.height - 200.0, width: 75.0, height: 75.0))
         panLeftButton.imageView?.contentMode = .scaleAspectFit
         panLeftButton.setImage(UIImage(named: "cameraPanLeftIcon"), for: .normal)
         panLeftButton.tintColor = .white
-        sceneView.addSubview(panLeftButton)
+        currentSceneView.addSubview(panLeftButton)
         panLeftButton.addTarget(self, action: #selector(panCameraLeft(_:)), for: .touchDown)
-        
-        
         let panRightButton = UIButton(frame: CGRect(x: view.frame.width - 75.0, y: view.frame.height - 200.0, width: 75.0, height: 75.0))
         panRightButton.imageView?.contentMode = .scaleAspectFit
         panRightButton.setImage(UIImage(named: "cameraPanRightIcon"), for: .normal)
         panRightButton.tintColor = .white
-        sceneView.addSubview(panRightButton)
+        currentSceneView.addSubview(panRightButton)
         panRightButton.addTarget(self, action: #selector(panCameraRight(_:)), for: .touchDown)
-        
         let resetButton = UIButton(frame: CGRect(x: 0 , y: view.frame.height - 100, width: view.frame.width / 2.0, height: 80.0))
         resetButton.backgroundColor = .clear
         resetButton.imageView?.contentMode = .scaleAspectFit
         resetButton.setImage(UIImage(named: "resetButtonIcon"), for: .normal)
-        //resetButton.setTitle("Reset", for: .normal)
-        sceneView.addSubview(resetButton)
+        currentSceneView.addSubview(resetButton)
         resetButton.addTarget(self, action: #selector(resetButtonClicked), for: .touchDown)
         resetButton.tintColor = .white
-        
         let reRollButton = UIButton(frame: CGRect(x: view.frame.width / 2.0 , y: view.frame.height - 100, width: view.frame.width / 2.0, height: 80.0))
         reRollButton.backgroundColor = .clear
         reRollButton.imageView?.contentMode = .scaleAspectFit
         reRollButton.setImage(UIImage(named: "rollButtonIcon"), for: .normal)
         reRollButton.tintColor = .white
         reRollButton.contentMode = .scaleAspectFit
-       // reRollButton.setTitle("Roll!", for: .normal)
-        sceneView.addSubview(reRollButton)
+        currentSceneView.addSubview(reRollButton)
         reRollButton.addTarget(self, action: #selector(reRollButtonClicked), for: .touchDown)
         reRollButton.addTarget(self, action: #selector(stopRolling), for: .touchUpInside)
-        
-        // MARK: - Room Container
+    }
+    
+    private func setupRoomContainer() {
+        guard let currentScene = scene else { return }
         let floor = SCNFloor()
         let northWall = SCNPlane(width: 50.0, height: 50.0)
         let southWall = SCNPlane(width: 50.0, height: 50.0)
@@ -255,11 +225,6 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, SceneKitDiceD
         northWall.firstMaterial?.isDoubleSided = true
         floor.reflectionFalloffEnd = 10
         floor.reflectivity = 0.75
-//        scene.fogStartDistance = 10.0
-//        scene.fogEndDistance = 50.0
-//        scene.fogColor = UIColor(red: 30/255, green: 10/255, blue: 10/255, alpha: 1.0)
-        
-        //floor.firstMaterial?.diffuse.
         floor.firstMaterial?.diffuse.wrapS = .repeat
         floor.firstMaterial?.diffuse.wrapT = .repeat
         floor.firstMaterial?.diffuse.contents = UIImage(named: "blackMarble")
@@ -275,66 +240,32 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, SceneKitDiceD
         southWallNode.position = SCNVector3(x: -25 ,y: 0 ,z: 0)
         eastWallNode.position = SCNVector3(x: 0 ,y: 0 ,z: -25)
         westWallNode.position = SCNVector3(0, 0, 25)
-        scene.rootNode.addChildNode(floorNode)
-        scene.rootNode.addChildNode(northWallNode)
-        scene.rootNode.addChildNode(southWallNode)
-        scene.rootNode.addChildNode(westWallNode)
-        scene.rootNode.addChildNode(eastWallNode)
-//        let floor = SCNPlane(width: 15.0, height: 15.0)
-//        let floorNode = SCNNode(geometry: floor)
-//        PhysicsHelper.setupKineticNodePhysics(containerNode: floorNode)
-//        floorNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "cube1")
+        currentScene.rootNode.addChildNode(floorNode)
+        currentScene.rootNode.addChildNode(northWallNode)
+        currentScene.rootNode.addChildNode(southWallNode)
+        currentScene.rootNode.addChildNode(westWallNode)
+        currentScene.rootNode.addChildNode(eastWallNode)
         let roomContainer = Container(x: 10, y: 15, z: 10)
         let roomContainerParentNode = ContainerController.createContainerPlaneNodes(container: roomContainer)
         for child in roomContainerParentNode.childNodes {
             child.geometry?.firstMaterial?.fillMode = .fill
-             child.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 100/255, green: 100/255, blue: 100/255, alpha: 0)
+             child.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
         }
-        
-        // MARK: - Dice Contanier
-        
-        let diceContainer = Container(x: 5, y: 5, z: 5)
-        let diceContainerParentNode = ContainerController.createDiceCupPlaneNodes(container: diceContainer)
-        for child in diceContainerParentNode.childNodes {
-            child.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
-            child.geometry?.firstMaterial?.isDoubleSided = true
-        }
-        diceContainerNode = diceContainerParentNode
+        GeometrySpawnHelper.spawnNodeIntoSceneAtPostion(parentScene: currentScene, geometryNode: roomContainerParentNode, atPosition: SCNVector3().origin)
+        cameraLookAtNode = floorNode
+    }
     
-        // MARK: - Initial Dice
+    private func spawnInitialDice() {
+        guard let currentScene = scene else { return }
         diceNodes.append(ColladaHelper.colladaToSCNNode(filepath: selectedDiceKey))
         diceNodes.append(ColladaHelper.colladaToSCNNode(filepath: selectedDiceKey))
-        PhysicsHelper.setupDynamicNodePhysics(selectedNode: diceNodes[1], bitMaskKey: Keys.tetrahedronName)
-        
-  
-        // MARK: - Add Geometry Nodes
-        //GeometrySpawnHelper.spawnNodeIntoSceneAtPostion(parentScene: scene, geometryNode: floorNode, atPosition: SCNVector3(0, 0, -14.9))
-        GeometrySpawnHelper.spawnNodeIntoSceneAtPostion(parentScene: scene, geometryNode: roomContainerParentNode, atPosition: SCNVector3().origin)
-        GeometrySpawnHelper.spawnNodeIntoSceneAtPostion(parentScene: scene, geometryNode: diceContainerParentNode, atPosition: SCNVector3().origin)
-    
-        // Custom Dice
         for node in diceNodes {
-            GeometrySpawnHelper.spawnNodeIntoSceneAtPostion(parentScene: scene, geometryNode: node, atPosition: SCNVector3().origin)
+            GeometrySpawnHelper.spawnNodeIntoSceneAtPostion(parentScene: currentScene, geometryNode: node, atPosition: SCNVector3().origin)
         }
-        
-        // MARK: - Camera To Geometry Constraints
-        let constraint = SCNLookAtConstraint(target: floorNode)
-        //let constraint = SCNLookAtConstraint(target: diceContainerNode)
-        
-
-        constraint.isGimbalLockEnabled = true
-        //constraint.
-        var constraints = [SCNConstraint]()
-        constraints.append(constraint)
-        cameraNode.constraints = constraints
-        }
-    
-    // MARK: - Internal Methods
+    }
     
     private func applyMotion() {
-        if self.motionManager.isAccelerometerAvailable {
-            self.motionManager.accelerometerUpdateInterval = 1.0 / 60.0
-            self.motionManager.startAccelerometerUpdates()
+        if UserDefaults.standard.bool(forKey: Keys.automaticDiceRolling) {
             self.rollTimer = Timer(fire: Date(), interval: (1.0/60.0), repeats: true, block: {(timer) in
                 if self.rollButtonPressed {
                     let forceVector = SCNVector3(0.005, -0.005, 0.006)
@@ -342,30 +273,39 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, SceneKitDiceD
                     for node in self.diceNodes {
                          node.physicsBody?.applyForce(forceVector, asImpulse: true)
                          node.physicsBody?.applyTorque(torqueVector, asImpulse: true)
-                     }
+                    }
                 }
-                //                        }
-//                if let data = self.motionManager.accelerometerData {
-//                    if self.rollButtonPressed {
-//                        let x = data.acceleration.x
-//                        let y = data.acceleration.y
-//                        let z = data.acceleration.z
-//                        let threshold = 0.000001
-//                        //let forceVector = SCNVector3(x,y,z)
-//                         //let torqueVector = SCNVector4(x,y,z,1.0)
-//                        let forceVector = SCNVector3(x > threshold ? x * 10 : 0, y > threshold ? y * 10 : 0, z > threshold ? z * 10 : 0)
-//                        let torqueVector = SCNVector4(x > threshold ? x * 10 : 0, y > threshold ? y * 10 : 0, z > threshold ? z * 10 : 0, 1)
-//                        print("forceVector = \(forceVector)")
-//                        print("torqueVector = \(torqueVector)")
-//                        for node in self.diceNodes {
-//                            node.physicsBody?.applyForce(forceVector, asImpulse: true)
-//                            node.physicsBody?.applyTorque(torqueVector, asImpulse: true)
-//                        }
-//                    }
-//                }
             })
             if rollTimer != nil {
                 RunLoop.current.add(self.rollTimer!, forMode: RunLoop.Mode.default)
+            }
+        } else {
+            if self.motionManager.isAccelerometerAvailable {
+                self.motionManager.accelerometerUpdateInterval = 1.0 / 60.0
+                self.motionManager.startAccelerometerUpdates()
+                self.rollTimer = Timer(fire: Date(), interval: (1.0/60.0), repeats: true, block: {(timer) in
+                    if self.rollButtonPressed {
+                        if let data = self.motionManager.accelerometerData {
+                           if self.rollButtonPressed {
+                               let x = data.acceleration.x
+                               let y = data.acceleration.y
+                               let z = data.acceleration.z
+                               let threshold = 0.000001
+                               let forceVector = SCNVector3(x > threshold ? x * 10 : 0, y > threshold ? y * 10 : 0, z > threshold ? z * 10 : 0)
+                               //let torqueVector = SCNVector4(x > threshold ? x * -10 : 0, y > threshold ? y * -10 : 0, z > threshold ? z * -10 : 0, 1)
+                               print("forceVector = \(forceVector)")
+                               //print("torqueVector = \(torqueVector)")
+                               for node in self.diceNodes {
+                                   node.physicsBody?.applyForce(forceVector, asImpulse: true)
+                                   //node.physicsBody?.applyTorque(torqueVector, asImpulse: true)
+                               }
+                           }
+                       }
+                    }
+                })
+                if rollTimer != nil {
+                    RunLoop.current.add(self.rollTimer!, forMode: RunLoop.Mode.default)
+                }
             }
         }
     }
@@ -373,31 +313,10 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, SceneKitDiceD
     private func stopMotion() {
         self.motionManager.stopAccelerometerUpdates()
         self.rollTimer = nil
-        for child in diceContainerNode.childNodes {
-            child.physicsBody?.categoryBitMask = BodyType.cube.rawValue
-            child.physicsBody?.collisionBitMask = BodyType.container.rawValue
-            child.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
-        }
     }
     
+    
     private func respawnDice() {
-        for node in diceNodes {
-            node.removeFromParentNode()
-        }
-        diceNodes = []
-        for i in 1...currentDiceCount {
-            if selectedDiceKey == Keys.customCube {
-                if i == 1 {
-                   diceNodes.append(ColladaHelper.colladaToSCNNode(filepath: Keys.customCube))
-               } else {
-                   diceNodes.append(ColladaHelper.colladaToSCNNode(filepath: Keys.customCube))
-                   guard let differentBodyType = bodyTypes[i] else { return }
-                   PhysicsHelper.setupDynamicNodePhysics(selectedNode: diceNodes[i - 1], bitMaskKey: differentBodyType)
-               }
-            } else {
-                diceNodes.append(ColladaHelper.colladaToSCNNode(filepath: selectedDiceKey))
-            }
-        }
         for node in diceNodes {
             GeometrySpawnHelper.spawnNodeIntoSceneAtPostion(parentScene: scene!, geometryNode: node, atPosition: SCNVector3().origin)
         }
@@ -405,11 +324,14 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, SceneKitDiceD
     
     // MARK: - Actions
     
+    @objc func settingsButtonPressed(_ sender: UIButton!) {
+        self.performSegue(withIdentifier: "toShowDiceSettings", sender: self)
+    }
+    
     @objc func panCameraLeft(_ sender: UIButton!) {
         guard let camera = cameraNode else { return }
         let currentPositionZInt = Int(camera.position.z)
         let currentPostionXInt = Int(camera.position.x)
-        //print(camera.position)
         let currentXZPosition = (currentPostionXInt, currentPositionZInt)
         var deltaX = -1
         var deltaZ = 1
@@ -496,17 +418,12 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, SceneKitDiceD
     }
     
     @objc func displaySlideIn(_ sender: UIButton!) {
-        self.performSegue(withIdentifier: "toShowSlideIn", sender: self)
+        self.performSegue(withIdentifier: "toShowDiceSettings", sender: self)
     }
     
    @objc func resetButtonClicked(_ sender: UIButton!) {
         print("Reset Tapped")
         respawnDice()
-        for child in diceContainerNode.childNodes {
-            PhysicsHelper.setupKineticNodePhysics(containerNode: child)
-            child.geometry?.firstMaterial?.diffuse.contents = UIColor(red: 50/255, green: 50/255, blue: 50/255, alpha: 0)
-        }
-    //self.cameraNode?.position = SCNVector3(x: -5, y: 7, z: 0)
     }
   
     @objc func reRollButtonClicked(_ sender: UIButton!) {
@@ -521,12 +438,13 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, SceneKitDiceD
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "toShowSlideIn" {
-            guard let slideInVC = segue.destination as? DiceSelectionViewController else { return }
+        if segue.identifier == "toShowDiceSettings" {
+            guard let slideInVC = segue.destination as? DiceSettingsViewController else { return }
             slideInTransitioningDelegate.direction = .bottom
             slideInVC.transitioningDelegate = slideInTransitioningDelegate
             slideInVC.modalPresentationStyle = .custom
-            slideInVC.sceneKitDiceDelegate = self  
+            slideInVC.delegate = self
+            slideInVC.currentDiceAndCounts = currentDiceNamesAndCounts
         }
     }
 }

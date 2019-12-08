@@ -10,59 +10,74 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="incrementableCell" rowHeight="106" id="KGk-i7-Jjw" customClass="IncrementableTableViewCell" customModule="DiceTest1" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="incrementableCell" rowHeight="95" id="KGk-i7-Jjw" customClass="IncrementableTableViewCell" customModule="DiceTest1" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="344" height="64"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="75"/>
+                <rect key="frame" x="0.0" y="0.0" width="344" height="64"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="GSw-pU-lpG">
-                        <rect key="frame" x="16" y="11" width="288" height="53"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="GSw-pU-lpG">
+                        <rect key="frame" x="212" y="7" width="100" height="50"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wk1-fL-siw">
-                                <rect key="frame" x="0.0" y="0.0" width="183" height="53"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpp-Y6-9JC">
-                                <rect key="frame" x="183" y="0.0" width="41" height="53"/>
+                                <rect key="frame" x="0.0" y="0.0" width="23.5" height="50"/>
                                 <state key="normal" image="chevron.down" catalog="system"/>
                                 <connections>
                                     <action selector="downButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="79o-9T-9Oa"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5mE-f1-0at">
-                                <rect key="frame" x="224" y="0.0" width="23" height="53"/>
+                                <rect key="frame" x="38.5" y="0.0" width="23" height="50"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TPy-iP-5cc">
-                                <rect key="frame" x="247" y="0.0" width="41" height="53"/>
+                                <rect key="frame" x="76.5" y="0.0" width="23.5" height="50"/>
                                 <state key="normal" image="chevron.up" catalog="system"/>
                                 <connections>
                                     <action selector="upButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hky-Ng-Vzs"/>
                                 </connections>
                             </button>
                         </subviews>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="Tue-h0-p9B"/>
+                            <constraint firstAttribute="width" constant="100" id="cgm-W7-IZ8"/>
+                        </constraints>
                     </stackView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Main Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wk1-fL-siw">
+                        <rect key="frame" x="16" y="22" width="83" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Wpj-Xu-zOa">
+                        <rect key="frame" x="111" y="19.5" width="25" height="25"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="25" id="51t-lh-MWo"/>
+                            <constraint firstAttribute="height" constant="25" id="S8L-qS-YYK"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="GSw-pU-lpG" secondAttribute="trailing" constant="16" id="HWk-Qs-R9X"/>
-                    <constraint firstItem="GSw-pU-lpG" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="SGz-16-D1f"/>
-                    <constraint firstAttribute="bottom" secondItem="GSw-pU-lpG" secondAttribute="bottom" constant="11" id="d7B-6l-Fga"/>
-                    <constraint firstItem="GSw-pU-lpG" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="kTV-hY-HEF"/>
-                    <constraint firstItem="GSw-pU-lpG" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="11" id="oJQ-bB-P9Q"/>
+                    <constraint firstAttribute="trailing" secondItem="GSw-pU-lpG" secondAttribute="trailing" constant="32" id="7CW-Sm-A8u"/>
+                    <constraint firstItem="Wpj-Xu-zOa" firstAttribute="leading" secondItem="Wk1-fL-siw" secondAttribute="trailing" constant="12" id="7l3-vY-2UB"/>
+                    <constraint firstItem="Wk1-fL-siw" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="esW-rO-Yy7"/>
+                    <constraint firstItem="Wk1-fL-siw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="fzW-Xj-QMy"/>
+                    <constraint firstItem="Wpj-Xu-zOa" firstAttribute="centerY" secondItem="Wk1-fL-siw" secondAttribute="centerY" id="ht2-1t-TDp"/>
+                    <constraint firstItem="GSw-pU-lpG" firstAttribute="centerY" secondItem="H2p-sc-9uM" secondAttribute="centerY" id="zNB-78-Q00"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="countLabel" destination="5mE-f1-0at" id="ghT-3S-h1s"/>
+                <outlet property="diceIconImageView" destination="Wpj-Xu-zOa" id="mxd-Lr-66G"/>
+                <outlet property="downArrowButton" destination="hpp-Y6-9JC" id="Lt6-TE-5N2"/>
                 <outlet property="mainLabel" destination="Wk1-fL-siw" id="ZA8-KS-Fi2"/>
+                <outlet property="upArrowButton" destination="TPy-iP-5cc" id="4lJ-JS-iEA"/>
             </connections>
-            <point key="canvasLocation" x="137.68115942028987" y="118.19196428571428"/>
+            <point key="canvasLocation" x="155.07246376811597" y="114.50892857142857"/>
         </tableViewCell>
     </objects>
     <resources>

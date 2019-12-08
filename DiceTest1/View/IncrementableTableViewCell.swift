@@ -19,7 +19,7 @@ class IncrementableTableViewCell: UITableViewCell {
     var identifer: Int?
     var key: String?
     var currentCount = 0
-    
+    var incrementingIsDisabled: Bool = false
     // MARK: - View Lifecycle
 
     override func awakeFromNib() {
@@ -30,6 +30,9 @@ class IncrementableTableViewCell: UITableViewCell {
     // MARK: - Outlets
     @IBOutlet weak var mainLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
+    @IBOutlet weak var upArrowButton: UIButton!
+    @IBOutlet weak var downArrowButton: UIButton!
+    @IBOutlet weak var diceIconImageView: UIImageView!
     
     // MARK: - Actions
     @IBAction func downButtonPressed(_ sender: Any) {
@@ -42,7 +45,7 @@ class IncrementableTableViewCell: UITableViewCell {
     }
     @IBAction func upButtonPressed(_ sender: Any) {
         guard let cellDelegate = delegate, let cellKey = key else { return }
-        if currentCount <= 3 {
+        if !incrementingIsDisabled {
             currentCount += 1
             updateCountLabel()
             cellDelegate.incrementedValueDidChange(forCellKey: cellKey, newValue: currentCount)
@@ -51,7 +54,7 @@ class IncrementableTableViewCell: UITableViewCell {
     
     // MARK: - Internal Methods
     
-    private func updateCountLabel() {
+    func updateCountLabel() {
         countLabel.text = "\(currentCount)"
     }
     

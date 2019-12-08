@@ -21,7 +21,7 @@ class SlideInPresentationController: UIPresentationController {
         case .right:
             frame.origin.x = containerView!.frame.width * (0.5)
         case .bottom:
-            frame.origin.y = containerView!.frame.height * (0.65)
+            frame.origin.y = containerView!.frame.height * (0.5)
         default:
             frame.origin = .zero
         }
@@ -75,7 +75,7 @@ class SlideInPresentationController: UIPresentationController {
         case .left, .right:
             return CGSize(width: parentSize.width*(0.5), height: parentSize.height)
         case .bottom, .top:
-            return CGSize(width: parentSize.width, height: parentSize.height*(0.65))
+            return CGSize(width: parentSize.width, height: parentSize.height*(0.5))
         }
     }
 }

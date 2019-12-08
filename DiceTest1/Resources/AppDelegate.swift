@@ -10,13 +10,25 @@ import UIKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
+    
+    let defaults = UserDefaults()
 
     var window: UIWindow?
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        onFirstLaunch()
         return true
+    }
+    
+    private func onFirstLaunch() {
+        let firstLaunch = FirstLaunch(userDefaults: .standard, key: Keys.firstLaunch)
+        if firstLaunch.isFirstLaunch {
+            UserDefaults.standard.set(true, forKey: Keys.onboarding)
+            UserDefaults.standard.set(false, forKey: Keys.automaticDiceRolling)
+            UserDefaults.standard.set(0, forKey: Keys.selectedDiceTexturePack)
+            UserDefaults.standard.set(0, forKey: Keys.selectedRoomTexturePack)
+        }
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
