@@ -213,7 +213,7 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         diceSelectionButton.tintColor = .white
         ViewHelper.roundCornersOf(viewLayer: diceSelectionButton.layer, withRoundingCoefficient: 3.0)
         currentSceneView.addSubview(diceSelectionButton)
-        diceSelectionButton.addTarget(self, action: #selector(displaySlideIn(_:)), for: .touchDown)
+        diceSelectionButton.addTarget(self, action: #selector(displayDiceSettings(_:)), for: .touchDown)
         let panLeftButton = UIButton(frame: CGRect(x: 2.0, y: view.frame.height - 200.0, width: 75.0, height: 75.0))
         panLeftButton.imageView?.contentMode = .scaleAspectFit
         panLeftButton.setImage(UIImage(named: "cameraPanLeftIcon"), for: .normal)
@@ -390,7 +390,7 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
     // MARK: - Actions
     
     @objc func settingsButtonPressed(_ sender: UIButton!) {
-        self.performSegue(withIdentifier: "toShowDiceSettings", sender: self)
+        //self.performSegue(withIdentifier: "toShowDiceSettings", sender: self)
     }
     
     @objc func panCameraLeft(_ sender: UIButton!) {
@@ -482,7 +482,7 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         print(camera.position)
     }
     
-    @objc func displaySlideIn(_ sender: UIButton!) {
+    @objc func displayDiceSettings(_ sender: UIButton!) {
         self.performSegue(withIdentifier: "toShowDiceSettings", sender: self)
     }
     
