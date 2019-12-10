@@ -18,9 +18,9 @@ class SelectableCollectionViewCell: UICollectionViewCell {
     
     func setupCellBorder() {
         if self.isSelected {
-            ViewHelper.applyRoundedCornerWithBorder(viewLayer: self.layer, withRoundingCoefficient: 3.0)
+            ViewHelper.applyRoundedCornerWithBorder(viewLayer: self.layer, withRoundingCoefficient: 7.0)
         } else {
-            ViewHelper.roundCornersOf(viewLayer: self.layer, withRoundingCoefficient: 3.0)
+            ViewHelper.roundCornersOf(viewLayer: self.layer, withRoundingCoefficient: 7.0)
         }
     }
     @IBOutlet weak var imageView: UIImageView!

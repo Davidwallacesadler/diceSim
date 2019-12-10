@@ -8,16 +8,16 @@
 
 import UIKit
 
-class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, IncrementableCellDelegate, SwitchableCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, IncrementableCellDelegate, SwitchableCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView.tag {
             case 0:
-            return 3
+            return diceTextureImagesAndNames.count
             case 1:
-            return 3
+            return floorTextureImagesAndNames.count
             case 2:
-            return 3
+            return wallTextureImagesAndNames.count
             default:
             return 0
         }
@@ -27,14 +27,14 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "selectableCell", for: indexPath) as? SelectableCollectionViewCell else { return UICollectionViewCell() }
         switch collectionView.tag {
             case 0:
-            cell.setupCellBorder()
-            cell.backgroundColor = colors[indexPath.row]
+            cell.label.text = diceTextureImagesAndNames[indexPath.row].0
+            cell.imageView.image = diceTextureImagesAndNames[indexPath.row].1
             case 1:
-            cell.setupCellBorder()
-            cell.backgroundColor = colors[indexPath.row]
+            cell.label.text = floorTextureImagesAndNames[indexPath.row].0
+            cell.imageView.image = floorTextureImagesAndNames[indexPath.row].1
             case 2:
-            cell.setupCellBorder()
-            cell.backgroundColor = colors[indexPath.row]
+            cell.label.text = wallTextureImagesAndNames[indexPath.row].0
+            cell.imageView.image = wallTextureImagesAndNames[indexPath.row].1
             default:
             return cell
         }
@@ -47,23 +47,20 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
                 guard let selectedCell = collectionView.cellForItem(at: indexPath) as? SelectableCollectionViewCell else { return }
                 selectedCell.isSelected = true
                 selectedCell.setupCellBorder()
-                selectedDiceTexture = diceTextureInts[indexPath.row]
-                print("selected dice int is \(diceTextureInts[indexPath.row])")
-                //collectionView.reloadData()
+                selectedDiceTexture = indexPath.row
+                print("selected dice int is \(indexPath.row)")
             case 1:
                 guard let selectedCell = collectionView.cellForItem(at: indexPath) as? SelectableCollectionViewCell else { return }
                 selectedCell.isSelected = true
                 selectedCell.setupCellBorder()
-                selectedFloorTexture = floorTextureInts[indexPath.row]
-                print("selected floor int is \(floorTextureInts[indexPath.row])")
-                //collectionView.reloadData()
+                selectedFloorTexture = indexPath.row
+                print("selected floor int is \(indexPath.row)")
             case 2:
                 guard let selectedCell = collectionView.cellForItem(at: indexPath) as? SelectableCollectionViewCell else { return }
                 selectedCell.isSelected = true
                 selectedCell.setupCellBorder()
-                selectedWallTexture = wallTextureInts[indexPath.row]
-                print("selected wall int is \(wallTextureInts[indexPath.row])")
-                //collectionView.reloadData()
+                selectedWallTexture = indexPath.row
+                print("selected wall int is \(indexPath.row)")
             default:
             return
         }
@@ -75,13 +72,11 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
         selectedCell.setupCellBorder()
     }
     
-    let diceTextureInts = [0,1,2]
-    let floorTextureInts = [0,1,2]
-    let wallTextureInts = [0,1,2]
-    let colors = [UIColor.red, UIColor.white, UIColor.black]
-    var selectedDiceTexture: Int?
-    var selectedFloorTexture: Int?
-    var selectedWallTexture: Int?
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: collectionView.bounds.height, height: collectionView.bounds.height)
+    }
+    
+   
     
     // MARK: - Cell Delegation
     func incrementedValueDidChange(forCellKey: String, newValue: Int) {
@@ -113,7 +108,7 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
             print("Automatic Rolling: \(isOnStatus)")
         }
     }
-    #warning("Should make models for D10, New Texture for D4, & D00")
+    #warning("New Texture for D4")
     
     // MARK: - TableView Delegation
     
@@ -140,7 +135,7 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 2 {
-            return 125.0
+            return 175.0
         } else {
             return 50.0
         }
@@ -185,8 +180,25 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     // MARK: - Internal Properties
-    #warning("pass in tuples -- (String, Int) - where the 0 coordinate is a key for the diceAndCounts dict -- plug in 1 coord. Int value as the value")
     var delegate: DiceSettingsDelegate?
+    let diceTextureImagesAndNames: [(String,UIImage)] = [
+        ("Red and White", UIImage(named:"redDiceCellImage")!),
+        ("Ivory and Black", UIImage(named:"whiteDiceCellImage")!),
+        ("Black and Lavender", UIImage(named:"blackDiceCellImage")!)
+    ]
+    let floorTextureImagesAndNames: [(String,UIImage)] = [
+        ("Black Marble", UIImage(named:"blackMarbleCellImage")!),
+        ("White Marble", UIImage(named:"whiteMarbleCellImage")!),
+        ("Wood", UIImage(named:"woodCellImage")!)
+    ]
+    let wallTextureImagesAndNames: [(String,UIImage)] = [
+        ("Twilight", UIImage(named:"twilightBackground")!),
+        ("SeaFoam", UIImage(named:"seafoamBackground")!),
+        ("Sky Blue", UIImage(named:"skyBlueBackground")!)
+    ]
+    var selectedDiceTexture: Int?
+    var selectedFloorTexture: Int?
+    var selectedWallTexture: Int?
     var currentDiceAndCounts: [(String,Int)]? {
         didSet {
             updateDiceAndCountDictionary()

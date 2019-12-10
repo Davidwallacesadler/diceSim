@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <collectionView clipsSubviews="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ELH-FC-Osd">
-                        <rect key="frame" x="16" y="30" width="288" height="54"/>
+                        <rect key="frame" x="16" y="25" width="288" height="59"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OwC-BM-mTP">
                             <size key="itemSize" width="50" height="50"/>
@@ -39,7 +39,7 @@
                     <constraint firstAttribute="trailing" secondItem="LSZ-47-FT5" secondAttribute="trailing" id="Buw-YV-kM6"/>
                     <constraint firstItem="LSZ-47-FT5" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="Lfk-tP-Sq9"/>
                     <constraint firstAttribute="bottom" secondItem="ELH-FC-Osd" secondAttribute="bottom" constant="10" id="UkK-Pc-JSQ"/>
-                    <constraint firstItem="ELH-FC-Osd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="30" id="VLY-L4-PHj"/>
+                    <constraint firstItem="ELH-FC-Osd" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="25" id="VLY-L4-PHj"/>
                     <constraint firstItem="ELH-FC-Osd" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="16" id="nSv-hS-Drl"/>
                     <constraint firstItem="LSZ-47-FT5" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="nVx-Dx-30g"/>
                 </constraints>

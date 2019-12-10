@@ -17,8 +17,8 @@ struct ViewHelper {
     }
     static func applyRoundedCornerWithBorder(viewLayer: CALayer,withRoundingCoefficient rounding: Double) {
         viewLayer.cornerRadius = CGFloat(rounding)
-        viewLayer.borderWidth = 2.0
-        viewLayer.borderColor = UIColor.gray.cgColor
+        viewLayer.borderWidth = 4.0
+        viewLayer.borderColor = UIColor.systemBlue.cgColor
         viewLayer.masksToBounds = true
     }
 }
