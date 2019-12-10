@@ -24,11 +24,13 @@ enum Keys {
     static let customIcosahedron = "SceneKitAssets.scnassets/icosahedron.scn"
     static let customDodecahedron = "SceneKitAssets.scnassets/dodecahedron.scn"
     static let customD10 = "SceneKitAssets.scnassets/D10-Fixed.scn"
+    static let customD00 = "SceneKitAssets.scnassets/D00.scn"
     
     // MARK: - UserDefaults Keys
     static let firstLaunch = "firstLaunch"
     static let onboarding = "onboarding"
     static let selectedDiceTexturePack = "diceTexture"
-    static let selectedRoomTexturePack = "roomTexture"
+    static let selectedFloorTexture = "floorTexture"
+    static let selectedWallTexturePack = "wallTexture"
     static let automaticDiceRolling = "autoDiceRoll"
 }

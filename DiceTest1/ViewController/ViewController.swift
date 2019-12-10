@@ -10,14 +10,44 @@ import SceneKit
 import SpriteKit
 import CoreMotion
 
-protocol SceneKitDiceDelegate {
-    func updateDiceSelection(diceKind: String, diceCount: Int)
-}
 protocol DiceSettingsDelegate {
     func updateSpawnedDice(dicePathsAndCounds: [(String,Int)])
+    func updateRoomWalls(shouldUpdate: Bool)
+    func updateRoomFloor(shouldUpdate: Bool)
+}
+
+enum WallTextures: Int {
+    case twilight
+    case seafoam
+    case sky
+}
+
+enum FloorTextures: Int {
+    case blackMarble
+    case whiteMarble
+    case wood
 }
 
 class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsDelegate {
+    
+    func updateRoomFloor(shouldUpdate: Bool) {
+        if shouldUpdate {
+            guard let floor = floorNode else { return }
+            GeometrySpawnHelper.removeShape(fromScene: scene!, geometryNode: floor)
+            setupFloor()
+        }
+    }
+    
+    func updateRoomWalls(shouldUpdate: Bool) {
+        if shouldUpdate {
+            guard let walls = wallNodes else { return }
+            for wall in walls {
+                GeometrySpawnHelper.removeShape(fromScene: scene!, geometryNode: wall)
+            }
+            setupWalls()
+        }
+    }
+    
     
     func updateSpawnedDice(dicePathsAndCounds: [(String, Int)]) {
         var newDiceNodes = [SCNNode]()
@@ -37,6 +67,8 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
                 self.currentDiceNamesAndCounts.append(("D8", diceCount))
                 case Keys.customD10:
                 self.currentDiceNamesAndCounts.append(("D10", diceCount))
+                case Keys.customD00:
+                self.currentDiceNamesAndCounts.append(("D00", diceCount))
                 case Keys.customDodecahedron:
                 self.currentDiceNamesAndCounts.append(("D12", diceCount))
                 case Keys.customIcosahedron:
@@ -69,6 +101,8 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
     var selectedDiceKey: String = Keys.customD10
     var cameraNode: SCNNode?
     var cameraLookAtNode: SCNNode?
+    var floorNode: SCNNode?
+    var wallNodes: [SCNNode]?
     var currentDiceNamesAndCounts = [("D10", 2)]
     
     // MARK: - Computed Properties
@@ -94,7 +128,9 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSceneAndWorldPhysics()
-        setupRoomContainer()
+        setupWalls()
+        setupFloor()
+        spawnClippingRoom()
         setupCamera()
         setupLights()
         setupHUDButtons()
@@ -208,43 +244,72 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         reRollButton.addTarget(self, action: #selector(stopRolling), for: .touchUpInside)
     }
     
-    private func setupRoomContainer() {
+    private func setupWalls() {
         guard let currentScene = scene else { return }
-        let floor = SCNFloor()
-        let northWall = SCNPlane(width: 50.0, height: 50.0)
-        let southWall = SCNPlane(width: 50.0, height: 50.0)
-        let eastWall = SCNPlane(width: 50.0, height: 50.0)
-        let westWall = SCNPlane(width: 50.0, height: 50.0)
-        eastWall.firstMaterial?.diffuse.contents = UIImage(named: "blur")
+        let northWall = SCNPlane(width: 60.0, height: 20.0)
+        let southWall = SCNPlane(width: 60.0, height: 20.0)
+        let eastWall = SCNPlane(width: 60.0, height: 20.0)
+        let westWall = SCNPlane(width: 60.0, height: 20.0)
+        var wallImage = UIImage(named:"twilightBackground")!
+        switch UserDefaults.standard.integer(forKey: Keys.selectedWallTexturePack) {
+            case WallTextures.seafoam.rawValue:
+            wallImage = UIImage(named:"seafoamBackground")!
+            case WallTextures.sky.rawValue:
+            wallImage = UIImage(named:"skyBlueBackground")!
+            default:
+            print("UserDefaults switch error in setupRoomContainer -- defaulting to twilightBackground")
+        }
+        eastWall.firstMaterial?.diffuse.contents = wallImage
         eastWall.firstMaterial?.isDoubleSided = true
-        westWall.firstMaterial?.diffuse.contents = UIImage(named: "blur")
+        westWall.firstMaterial?.diffuse.contents = wallImage
         westWall.firstMaterial?.isDoubleSided = true
-        southWall.firstMaterial?.diffuse.contents = UIImage(named: "blur")
+        southWall.firstMaterial?.diffuse.contents = wallImage
         southWall.firstMaterial?.isDoubleSided = true
-        northWall.firstMaterial?.diffuse.contents = UIImage(named: "blur")
+        northWall.firstMaterial?.diffuse.contents = wallImage
         northWall.firstMaterial?.isDoubleSided = true
-        floor.reflectionFalloffEnd = 10
-        floor.reflectivity = 0.75
-        floor.firstMaterial?.diffuse.wrapS = .repeat
-        floor.firstMaterial?.diffuse.wrapT = .repeat
-        floor.firstMaterial?.diffuse.contents = UIImage(named: "blackMarble")
-        let floorNode = SCNNode(geometry: floor)
         let northWallNode = SCNNode(geometry: northWall)
         let southWallNode = SCNNode(geometry: southWall)
         let eastWallNode = SCNNode(geometry: eastWall)
         let westWallNode = SCNNode(geometry: westWall)
         northWallNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 0, 1, 0)
         southWallNode.transform = SCNMatrix4MakeRotation(-Float.pi / 2, 0, 1, 0)
-        floorNode.position = SCNVector3(x: 0, y: -7.45, z: 0)
         northWallNode.position = SCNVector3(x: 25 ,y: 0 ,z: 0)
         southWallNode.position = SCNVector3(x: -25 ,y: 0 ,z: 0)
         eastWallNode.position = SCNVector3(x: 0 ,y: 0 ,z: -25)
         westWallNode.position = SCNVector3(0, 0, 25)
-        currentScene.rootNode.addChildNode(floorNode)
         currentScene.rootNode.addChildNode(northWallNode)
         currentScene.rootNode.addChildNode(southWallNode)
         currentScene.rootNode.addChildNode(westWallNode)
         currentScene.rootNode.addChildNode(eastWallNode)
+        wallNodes = [northWallNode,eastWallNode,southWallNode,westWallNode]
+        
+    }
+    
+    private func setupFloor() {
+        guard let currentScene = scene else { return }
+        let floor = SCNFloor()
+        floor.reflectionFalloffEnd = 10
+        floor.reflectivity = 0.75
+        floor.firstMaterial?.diffuse.wrapS = .repeat
+        floor.firstMaterial?.diffuse.wrapT = .repeat
+        var floorImage = UIImage(named: "blackMarble")
+        switch UserDefaults.standard.integer(forKey: Keys.selectedFloorTexture) {
+            case FloorTextures.whiteMarble.rawValue:
+            floorImage = UIImage(named: "marble-1")
+            case FloorTextures.wood.rawValue:
+            floorImage = UIImage(named: "wood")
+            default:
+            print("floor image is black marble -- defaulting")
+        }
+        floor.firstMaterial?.diffuse.contents = floorImage
+        let floorNode = SCNNode(geometry: floor)
+        floorNode.position = SCNVector3(x: 0, y: -7.45, z: 0)
+        currentScene.rootNode.addChildNode(floorNode)
+        self.floorNode = floorNode
+    }
+    
+    private func spawnClippingRoom() {
+        guard let currentScene = scene else { return }
         let roomContainer = Container(x: 10, y: 15, z: 10)
         let roomContainerParentNode = ContainerController.createContainerPlaneNodes(container: roomContainer)
         for child in roomContainerParentNode.childNodes {

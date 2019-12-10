@@ -24,16 +24,95 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C4E687CB-DF8A-42D1-AB92-A8D7263B0053"
+            uuid = "9FBBA0F7-1979-43F0-A487-E6F34ED56530"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DiceTest1/ViewController/ViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "254"
+            endingLineNumber = "254"
+            landmarkName = "setupWalls()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9FBBA0F7-1979-43F0-A487-E6F34ED56530 - ce97cabc93ecdff2"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DiceTest1.ViewController.(setupRoomContainer in _34EE8E343DF221A0389402BEA7D4FB5A)() -&gt; ()"
+                  moduleName = "DiceTest1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/david/SwiftCoding/Creating/DiceTest1/DiceTest1/ViewController/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "237"
+                  endingLineNumber = "237"
+                  offsetFromSymbolStart = "756">
+               </Location>
+               <Location
+                  uuid = "9FBBA0F7-1979-43F0-A487-E6F34ED56530 - ce97cabc93ecdff2"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DiceTest1.ViewController.(setupRoomContainer in _34EE8E343DF221A0389402BEA7D4FB5A)() -&gt; ()"
+                  moduleName = "DiceTest1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/david/SwiftCoding/Creating/DiceTest1/DiceTest1/ViewController/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "237"
+                  endingLineNumber = "237"
+                  offsetFromSymbolStart = "920">
+               </Location>
+               <Location
+                  uuid = "9FBBA0F7-1979-43F0-A487-E6F34ED56530 - ce97cabc93ecdff2"
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "DiceTest1.ViewController.(setupRoomContainer in _34EE8E343DF221A0389402BEA7D4FB5A)() -&gt; ()"
+                  moduleName = "DiceTest1"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/david/SwiftCoding/Creating/DiceTest1/DiceTest1/ViewController/ViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "237"
+                  endingLineNumber = "237"
+                  offsetFromSymbolStart = "1316">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "08B5BFFA-0F96-4F84-837F-E6E8800293FD"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "DiceTest1/ViewController/DiceSettingsViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "79"
-            endingLineNumber = "79"
-            landmarkName = "tableView(_:cellForRowAt:)"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "collectionView(_:cellForItemAt:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DE4E9099-69E1-4E20-9BFD-4F2DB935A62A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "DiceTest1/View/SelectableCollectionViewCell.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "setupCellBorder()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

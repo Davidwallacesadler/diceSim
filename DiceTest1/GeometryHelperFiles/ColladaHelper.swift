@@ -11,26 +11,67 @@ import SceneKit
 
 struct ColladaHelper {
     
+    enum DiceTextures: Int {
+        case red
+        case white
+        case black
+    }
+    
     static func colladaToSCNNode(filepath:String) -> SCNNode {
         var node = SCNNode()
-//        if filepath == Keys.customCube {
-//            let cubeGeometry = SCNBox(width: 1.5, height: 1.5, length: 1.5, chamferRadius: 0)
-//            let cubeNode = SCNNode(geometry: cubeGeometry)
-//            MaterialsGenerator.generateMaterialsArray(givenGeometryKey: Keys.cubeName, targetNode: cubeNode)
-//            PhysicsHelper.setupDynamicNodePhysics(selectedNode: cubeNode, bitMaskKey: Keys.cubeName)
-//            node = cubeNode
-//        } else {
-            let scene = SCNScene(named: filepath)
-            let nodeArray = scene!.rootNode.childNodes
-            for childNode in nodeArray {
-                node.addChildNode(childNode as SCNNode)
+        let selectedTexturePack = UserDefaults.standard.integer(forKey: Keys.selectedDiceTexturePack)
+        let scene = SCNScene(named: filepath)
+        let nodeArray = scene!.rootNode.childNodes
+        for childNode in nodeArray {
+            node.addChildNode(childNode as SCNNode)
                 #warning("Here is where you can set the image of the customDice")
-            //childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "D10_marble")
+            switch selectedTexturePack {
+                case DiceTextures.white.rawValue:
+                switch filepath {
+                    case Keys.customTetrahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "white_d4")
+                    case Keys.customCube:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "white_d6")
+                    case Keys.customOctahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "white_d8")
+                    case Keys.customD10:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "white_d10")
+                    case Keys.customD00:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "white_d00")
+                    case Keys.customDodecahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "white_d12")
+                    case Keys.customIcosahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "white_d20")
+                    default:
+                    print("defaulting in white dice textures")
+                }
+                case DiceTextures.black.rawValue:
+                switch filepath {
+                    case Keys.customTetrahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "black_d4")
+                    case Keys.customCube:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "black_d6")
+                    case Keys.customOctahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "black_d8")
+                    case Keys.customD10:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "black_d10")
+                    case Keys.customD00:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "black_d00")
+                    case Keys.customDodecahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "black_d12")
+                    case Keys.customIcosahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "black_d20")
+                    default:
+                    print("defaulting in black dice textures")
+                }
+                default:
+                print("defaulting in colladaToSCNNode - using default texture (red)")
             }
-            node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape())
-            node.physicsBody?.angularDamping = 0.5
-            node.physicsBody?.restitution = 0.3
-       // }
+            //childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "D10_marble")
+        }
+        node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape())
+        node.physicsBody?.angularDamping = 0.5
+        node.physicsBody?.restitution = 0.3
         return node
     }
 }

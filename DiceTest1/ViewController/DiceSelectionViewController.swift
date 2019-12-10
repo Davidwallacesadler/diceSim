@@ -42,7 +42,7 @@ class DiceSelectionViewController: UIViewController, UIPickerViewDelegate, UIPic
     
     // MARK: - Internal Properties
 
-    var sceneKitDiceDelegate: SceneKitDiceDelegate?
+    //var sceneKitDiceDelegate: SceneKitDiceDelegate?
     
     let diceTypeNames = [
         (Keys.customTetrahedron, "D4"),
@@ -76,9 +76,9 @@ class DiceSelectionViewController: UIViewController, UIPickerViewDelegate, UIPic
     // MARK: - Actions
     
     @IBAction func applyButtonPressed(_ sender: Any) {
-        guard let delegate = sceneKitDiceDelegate else { return }
-        delegate.updateDiceSelection(diceKind: selectedDiceType, diceCount: selectedDiceCount)
-        self.dismiss(animated: true, completion: nil)
+//        guard let delegate = sceneKitDiceDelegate else { return }
+//        delegate.updateDiceSelection(diceKind: selectedDiceType, diceCount: selectedDiceCount)
+//        self.dismiss(animated: true, completion: nil)
     }
     
     /*

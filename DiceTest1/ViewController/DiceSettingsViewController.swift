@@ -8,8 +8,80 @@
 
 import UIKit
 
-class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, IncrementableCellDelegate, SwitchableCellDelegate {
-
+class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, IncrementableCellDelegate, SwitchableCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        switch collectionView.tag {
+            case 0:
+            return 3
+            case 1:
+            return 3
+            case 2:
+            return 3
+            default:
+            return 0
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "selectableCell", for: indexPath) as? SelectableCollectionViewCell else { return UICollectionViewCell() }
+        switch collectionView.tag {
+            case 0:
+            cell.setupCellBorder()
+            cell.backgroundColor = colors[indexPath.row]
+            case 1:
+            cell.setupCellBorder()
+            cell.backgroundColor = colors[indexPath.row]
+            case 2:
+            cell.setupCellBorder()
+            cell.backgroundColor = colors[indexPath.row]
+            default:
+            return cell
+        }
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        switch collectionView.tag {
+            case 0:
+                guard let selectedCell = collectionView.cellForItem(at: indexPath) as? SelectableCollectionViewCell else { return }
+                selectedCell.isSelected = true
+                selectedCell.setupCellBorder()
+                selectedDiceTexture = diceTextureInts[indexPath.row]
+                print("selected dice int is \(diceTextureInts[indexPath.row])")
+                //collectionView.reloadData()
+            case 1:
+                guard let selectedCell = collectionView.cellForItem(at: indexPath) as? SelectableCollectionViewCell else { return }
+                selectedCell.isSelected = true
+                selectedCell.setupCellBorder()
+                selectedFloorTexture = floorTextureInts[indexPath.row]
+                print("selected floor int is \(floorTextureInts[indexPath.row])")
+                //collectionView.reloadData()
+            case 2:
+                guard let selectedCell = collectionView.cellForItem(at: indexPath) as? SelectableCollectionViewCell else { return }
+                selectedCell.isSelected = true
+                selectedCell.setupCellBorder()
+                selectedWallTexture = wallTextureInts[indexPath.row]
+                print("selected wall int is \(wallTextureInts[indexPath.row])")
+                //collectionView.reloadData()
+            default:
+            return
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        guard let selectedCell = collectionView.cellForItem(at: indexPath) as? SelectableCollectionViewCell else { return }
+        selectedCell.isSelected = false
+        selectedCell.setupCellBorder()
+    }
+    
+    let diceTextureInts = [0,1,2]
+    let floorTextureInts = [0,1,2]
+    let wallTextureInts = [0,1,2]
+    let colors = [UIColor.red, UIColor.white, UIColor.black]
+    var selectedDiceTexture: Int?
+    var selectedFloorTexture: Int?
+    var selectedWallTexture: Int?
     
     // MARK: - Cell Delegation
     func incrementedValueDidChange(forCellKey: String, newValue: Int) {
@@ -66,6 +138,14 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if indexPath.section == 2 {
+            return 125.0
+        } else {
+            return 50.0
+        }
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
             case 0:
@@ -93,7 +173,12 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
             }
             return incrementableCell
             case 2:
-            return UITableViewCell()
+            guard let collectionViewTableCell = tableView.dequeueReusableCell(withIdentifier: "collectionCell", for: indexPath) as? CollectionViewTableViewCell else { return UITableViewCell() }
+            collectionViewTableCell.mainLabel.text = textureSettingsOptionLabels[indexPath.row]
+            collectionViewTableCell.collectionView.tag = indexPath.row
+            collectionViewTableCell.collectionView.dataSource = self
+            collectionViewTableCell.collectionView.delegate = self
+            return collectionViewTableCell
             default:
             return UITableViewCell()
         }
@@ -119,7 +204,8 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
                                      "D12",
                                      "D20"]
     let textureSettingsOptionLabels = ["Dice Textures",
-                                       "Floor Textures"]
+                                       "Floor Textures",
+                                       "Wall Textures"]
     var diceAndCounts = ["D4": 0,
                          "D6": 0,
                          "D8": 0,
@@ -127,21 +213,8 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
                          "D00": 0,
                          "D12": 0,
                          "D20": 0]
-//    let diceTypeNames = [
-//        (Keys.customTetrahedron, "D4"),
-//        (Keys.customCube, "D6"),
-//        (Keys.customOctahedron, "D8"),
-//        (Keys.customD10, "D10"),
-//        (Keys.customDodecahedron, "D12"),
-//        (Keys.customIcosahedron, "D20")
-//    ]
-//    let diceCounts = [
-//        1, 2, 3, 4, 5
-//    ]
     var currentDiceCount = 0
     var selectedDiceType = Keys.customTetrahedron
-    var selectedDiceCount: Int = 1
-
     var shouldRestrictAddingDice = false
     
     // MARK: - View Lifecycle
@@ -160,6 +233,17 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
     @IBAction func applyButtonPressed(_ sender: Any) {
         let diceAndCountsToPass = prepareSelectedDiceData()
         guard let sceneKitSpawningDelegate = delegate else { return }
+        if let diceTexture = selectedDiceTexture {
+            UserDefaults.standard.set(diceTexture, forKey: Keys.selectedDiceTexturePack)
+        }
+        if let floorTexture = selectedFloorTexture {
+            UserDefaults.standard.set(floorTexture, forKey: Keys.selectedFloorTexture)
+            sceneKitSpawningDelegate.updateRoomFloor(shouldUpdate: true)
+        }
+        if let wallTexture = selectedWallTexture {
+            UserDefaults.standard.set(wallTexture, forKey: Keys.selectedWallTexturePack)
+            sceneKitSpawningDelegate.updateRoomWalls(shouldUpdate: true)
+        }
         sceneKitSpawningDelegate.updateSpawnedDice(dicePathsAndCounds: diceAndCountsToPass)
         self.dismiss(animated: true, completion: nil)
         // call VC delegate
@@ -181,6 +265,7 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
     private func registerCustomCells() {
         tableView.register(UINib(nibName: "SwitchableTableViewCell", bundle: nil), forCellReuseIdentifier: "switchableCell")
         tableView.register(UINib(nibName: "IncrementableTableViewCell", bundle: nil), forCellReuseIdentifier: "incrementableCell")
+        tableView.register(UINib(nibName: "CollectionViewTableViewCell", bundle: nil), forCellReuseIdentifier: "collectionCell")
     }
     
     private func setupTableViewDelegation() {
@@ -208,7 +293,7 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
                     case "D10":
                     diceFilePath = Keys.customD10
                     case "D00":
-                    diceFilePath = Keys.customD10
+                    diceFilePath = Keys.customD00
                     case "D12":
                     diceFilePath = Keys.customDodecahedron
                     case "D20":

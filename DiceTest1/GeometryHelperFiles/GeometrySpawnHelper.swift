@@ -13,9 +13,9 @@ struct GeometrySpawnHelper {
     
     /// Removes the argument geometry node from the selected Scene View scene.
     static func removeShape(fromScene: SCNScene, geometryNode: SCNNode) {
-        let dummyNode = SCNNode()
-        //TODO: - research if there is a better way of removing a node.
-        fromScene.rootNode.replaceChildNode(geometryNode, with: dummyNode)
+//        let dummyNode = SCNNode()
+//        fromScene.rootNode.replaceChildNode(geometryNode, with: dummyNode)
+        geometryNode.removeFromParentNode()
     }
     
     /// Spawns the desired Geometry node at the given position in the parent Scene View scene.

@@ -26,8 +26,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         if firstLaunch.isFirstLaunch {
             UserDefaults.standard.set(true, forKey: Keys.onboarding)
             UserDefaults.standard.set(false, forKey: Keys.automaticDiceRolling)
+            UserDefaults.standard.set(0, forKey: Keys.selectedFloorTexture)
+            UserDefaults.standard.set(0, forKey: Keys.selectedFloorTexture)
             UserDefaults.standard.set(0, forKey: Keys.selectedDiceTexturePack)
-            UserDefaults.standard.set(0, forKey: Keys.selectedRoomTexturePack)
         }
     }
 
