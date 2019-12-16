@@ -10,6 +10,8 @@ import UIKit
 
 class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, IncrementableCellDelegate, SwitchableCellDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
+    // MARK: - CollectionView Delegation
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView.tag {
             case 0:
@@ -75,8 +77,6 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: collectionView.bounds.height, height: collectionView.bounds.height)
     }
-    
-   
     
     // MARK: - Cell Delegation
     func incrementedValueDidChange(forCellKey: String, newValue: Int) {
@@ -184,17 +184,26 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
     let diceTextureImagesAndNames: [(String,UIImage)] = [
         ("Red and White", UIImage(named:"redDiceCellImage")!),
         ("Ivory and Black", UIImage(named:"whiteDiceCellImage")!),
-        ("Black and Lavender", UIImage(named:"blackDiceCellImage")!)
+        ("Black and Lavender", UIImage(named:"blackDiceCellImage")!),
+        ("White and Green", UIImage(named:"whiteAndGreenCellImage")!),
+        ("Navy and Orange", UIImage(named:"navyAndOrangeCellImage")!),
+        ("Emerald and Gold", UIImage(named:"emeraldAndGoldCellImage")!)
     ]
     let floorTextureImagesAndNames: [(String,UIImage)] = [
         ("Black Marble", UIImage(named:"blackMarbleCellImage")!),
         ("White Marble", UIImage(named:"whiteMarbleCellImage")!),
-        ("Wood", UIImage(named:"woodCellImage")!)
+        ("Wood", UIImage(named:"woodCellImage")!),
+        ("Tile", UIImage(named:"tile")!),
+        ("Concrete", UIImage(named:"concrete")!),
+        ("Carpet", UIImage(named:"carpet")!)
     ]
     let wallTextureImagesAndNames: [(String,UIImage)] = [
         ("Twilight", UIImage(named:"twilightBackground")!),
         ("SeaFoam", UIImage(named:"seafoamBackground")!),
-        ("Sky Blue", UIImage(named:"skyBlueBackground")!)
+        ("Sky Blue", UIImage(named:"skyBlueBackground")!),
+        ("Dawn", UIImage(named:"dawnBackground")!),
+        ("Midnight", UIImage(named:"midnightBackground")!),
+        ("Salmon", UIImage(named:"salmonBackground")!)
     ]
     var selectedDiceTexture: Int?
     var selectedFloorTexture: Int?
@@ -204,7 +213,13 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
             updateDiceAndCountDictionary()
         }
     }
-    let diceIconNames = ["d4Icon", "d6Icon","d8Icon","d10Icon","d10Icon","d12Icon","d20Icon"]
+    let diceIconNames = ["d4Icon",
+                         "d6Icon",
+                         "d8Icon",
+                         "d10Icon",
+                         "d10Icon",
+                         "d12Icon",
+                         "d20Icon"]
     let tableHeaderTitles = ["Rolling Settings",
                              "Dice Settings",
                              "Texture Settings"]

@@ -15,6 +15,9 @@ struct ColladaHelper {
         case red
         case white
         case black
+        case whiteAndGreen
+        case navyAndOrange
+        case emeraldAndGold
     }
     
     static func colladaToSCNNode(filepath:String) -> SCNNode {
@@ -61,6 +64,63 @@ struct ColladaHelper {
                     childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "black_d12")
                     case Keys.customIcosahedron:
                     childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "black_d20")
+                    default:
+                    print("defaulting in black dice textures")
+                }
+                case DiceTextures.whiteAndGreen.rawValue:
+                switch filepath {
+                    case Keys.customTetrahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "whiteAndGreen_d4")
+                    case Keys.customCube:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "whiteAndGreen_d6")
+                    case Keys.customOctahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "whiteAndGreen_d8")
+                    case Keys.customD10:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "whiteAndGreen_d10")
+                    case Keys.customD00:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "whiteAndGreen_d00")
+                    case Keys.customDodecahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "whiteAndGreen_d12")
+                    case Keys.customIcosahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "whiteAndGreen_d20")
+                    default:
+                    print("defaulting in black dice textures")
+                }
+                case DiceTextures.navyAndOrange.rawValue:
+                switch filepath {
+                    case Keys.customTetrahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "navyAndOrange_d4")
+                    case Keys.customCube:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "navyAndOrange_d6")
+                    case Keys.customOctahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "navyAndOrange_d8")
+                    case Keys.customD10:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "navyAndOrange_d10")
+                    case Keys.customD00:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "navyAndOrange_d00")
+                    case Keys.customDodecahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "navyAndOrange_d12")
+                    case Keys.customIcosahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "navyAndOrange_d20")
+                    default:
+                    print("defaulting in black dice textures")
+                }
+                case DiceTextures.emeraldAndGold.rawValue:
+                switch filepath {
+                    case Keys.customTetrahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "emeraldAndGold_d4")
+                    case Keys.customCube:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "emeraldAndGold_d6")
+                    case Keys.customOctahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "emeraldAndGold_d8")
+                    case Keys.customD10:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "emeraldAndGold_d10")
+                    case Keys.customD00:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "emeraldAndGold_d00")
+                    case Keys.customDodecahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "emeraldAndGold_d12")
+                    case Keys.customIcosahedron:
+                    childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "emeraldAndGold_d20")
                     default:
                     print("defaulting in black dice textures")
                 }

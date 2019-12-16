@@ -20,15 +20,23 @@ enum WallTextures: Int {
     case twilight
     case seafoam
     case sky
+    case dawn
+    case midnight
+    case salmon
 }
 
 enum FloorTextures: Int {
     case blackMarble
     case whiteMarble
     case wood
+    case tile
+    case concrete
+    case carpet
 }
 
 class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsDelegate {
+    
+    // MARK: - DiceSettingsDelegation
     
     func updateRoomFloor(shouldUpdate: Bool) {
         if shouldUpdate {
@@ -47,7 +55,6 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
             setupWalls()
         }
     }
-    
     
     func updateSpawnedDice(dicePathsAndCounds: [(String, Int)]) {
         var newDiceNodes = [SCNNode]()
@@ -114,12 +121,12 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
     }
     var randomY: Float {
         get {
-            return Float.random(in: 10.0...18.0)
+            return Float.random(in: -10.0...10.0)
         }
     }
     var randomZ: Float {
         get {
-            return Float.random(in: 5.0...10.0)
+            return Float.random(in: -5.0...5.0)
         }
     }
     
@@ -197,6 +204,7 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         infoButton.setImage(UIImage(named: "infoButtonIcon"), for: .normal)
         infoButton.tintColor = .white
         ViewHelper.roundCornersOf(viewLayer: infoButton.layer, withRoundingCoefficient: 3.0)
+        infoButton.addTarget(self, action: #selector(displayTips(_:)), for: .touchDown)
         currentSceneView.addSubview(infoButton)
         let appSettingsButton = UIButton(frame: CGRect(x: (self.view.bounds.maxX / 3) + 2.0, y: 27.0, width: (self.view.bounds.maxX / 3) - 4.0, height: 75.0))
         appSettingsButton.backgroundColor = UIColor(hue: 1.0, saturation: 1.0, brightness: 0, alpha: 0.2)
@@ -256,6 +264,12 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
             wallImage = UIImage(named:"seafoamBackground")!
             case WallTextures.sky.rawValue:
             wallImage = UIImage(named:"skyBlueBackground")!
+            case WallTextures.dawn.rawValue:
+            wallImage = UIImage(named:"dawnBackground")!
+            case WallTextures.midnight.rawValue:
+            wallImage = UIImage(named:"midnightBackground")!
+            case WallTextures.salmon.rawValue:
+            wallImage = UIImage(named:"salmonBackground")!
             default:
             print("UserDefaults switch error in setupRoomContainer -- defaulting to twilightBackground")
         }
@@ -298,6 +312,12 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
             floorImage = UIImage(named: "marble-1")
             case FloorTextures.wood.rawValue:
             floorImage = UIImage(named: "wood")
+            case FloorTextures.tile.rawValue:
+            floorImage = UIImage(named: "tile")
+            case FloorTextures.concrete.rawValue:
+            floorImage = UIImage(named: "concrete")
+            case FloorTextures.carpet.rawValue:
+            floorImage = UIImage(named: "carpet")
             default:
             print("floor image is black marble -- defaulting")
         }
@@ -314,7 +334,7 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         let roomContainerParentNode = ContainerController.createContainerPlaneNodes(container: roomContainer)
         for child in roomContainerParentNode.childNodes {
             child.geometry?.firstMaterial?.fillMode = .fill
-             child.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
+            child.geometry?.firstMaterial?.diffuse.contents = UIColor.clear
         }
         GeometrySpawnHelper.spawnNodeIntoSceneAtPostion(parentScene: currentScene, geometryNode: roomContainerParentNode, atPosition: SCNVector3().origin)
         cameraLookAtNode = floorNode
@@ -330,20 +350,21 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
     }
     
     private func applyMotion() {
+        for nodeAndOffset in self.diceNodes.enumerated() {
+            nodeAndOffset.element.position = SCNVector3().origin
+            nodeAndOffset.element.rotation = SCNVector4(randomX,randomY,randomZ,1)
+        }
         if UserDefaults.standard.bool(forKey: Keys.automaticDiceRolling) {
             self.rollTimer = Timer(fire: Date(), interval: (1.0/60.0), repeats: true, block: {(timer) in
                 if self.rollButtonPressed {
-                    let forceVector = SCNVector3(0.005, -0.005, 0.006)
-                    let torqueVector = SCNVector4(self.randomX / 10.0,self.randomX / 10.0,self.randomX / 10.0,self.randomX)
+                    let forceVector = SCNVector3(self.randomY,0,self.randomZ)
+                    let torqueVector = SCNVector4(3,-3,3,3)
                     for node in self.diceNodes {
-                         node.physicsBody?.applyForce(forceVector, asImpulse: true)
-                         node.physicsBody?.applyTorque(torqueVector, asImpulse: true)
+                        node.physicsBody?.velocity = forceVector
+                        node.physicsBody?.angularVelocity = torqueVector
                     }
                 }
             })
-            if rollTimer != nil {
-                RunLoop.current.add(self.rollTimer!, forMode: RunLoop.Mode.default)
-            }
         } else {
             if self.motionManager.isAccelerometerAvailable {
                 self.motionManager.accelerometerUpdateInterval = 1.0 / 60.0
@@ -352,32 +373,38 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
                     if self.rollButtonPressed {
                         if let data = self.motionManager.accelerometerData {
                            if self.rollButtonPressed {
-                               let x = data.acceleration.x
-                               let y = data.acceleration.y
-                               let z = data.acceleration.z
-                               let threshold = 0.000001
-                               let forceVector = SCNVector3(x > threshold ? x * 10 : 0, y > threshold ? y * 10 : 0, z > threshold ? z * 10 : 0)
-                               //let torqueVector = SCNVector4(x > threshold ? x * -10 : 0, y > threshold ? y * -10 : 0, z > threshold ? z * -10 : 0, 1)
-                               print("forceVector = \(forceVector)")
-                               //print("torqueVector = \(torqueVector)")
-                               for node in self.diceNodes {
-                                   node.physicsBody?.applyForce(forceVector, asImpulse: true)
-                                   //node.physicsBody?.applyTorque(torqueVector, asImpulse: true)
-                               }
-                           }
-                       }
+                            let x = data.acceleration.x
+                            let y = data.acceleration.y
+                            let z = data.acceleration.z
+                            let threshold = 0.001
+                            let forceVector = SCNVector3(x * 10.0,0,-x * 10.0)
+                            //let forceVector = SCNVector3(0.005,0.005,0.005)
+                            //let torqueVector = SCNVector4(10,-10,10,1)
+                            //let forceVector = SCNVector3(z > threshold ? -z * 50 : 0, y > threshold ? y * 50 : 0, z > threshold ? -x * 50 : 0)
+                            let torqueVector = SCNVector4(x > threshold ? x * 30 : 1, y > threshold ? y * 30 : 1, z > threshold ? z * 30 : 1, 1)
+                            for node in self.diceNodes {
+                                node.physicsBody?.velocity = forceVector
+                                node.physicsBody?.angularVelocity = torqueVector
+                            }
+                        }
                     }
-                })
-                if rollTimer != nil {
-                    RunLoop.current.add(self.rollTimer!, forMode: RunLoop.Mode.default)
                 }
+            })
             }
+        }
+        if rollTimer != nil {
+            RunLoop.current.add(self.rollTimer!, forMode: RunLoop.Mode.default)
         }
     }
     
     private func stopMotion() {
-        self.motionManager.stopAccelerometerUpdates()
+        if !UserDefaults.standard.bool(forKey: Keys.automaticDiceRolling) {
+            self.motionManager.stopAccelerometerUpdates()
+        }
         self.rollTimer = nil
+        for node in diceNodes {
+           node.physicsBody?.velocity = SCNVector3(randomX, 10, randomZ)
+        }
     }
     
     
@@ -390,7 +417,7 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
     // MARK: - Actions
     
     @objc func settingsButtonPressed(_ sender: UIButton!) {
-        //self.performSegue(withIdentifier: "toShowDiceSettings", sender: self)
+        self.performSegue(withIdentifier: "toShowAppSettings", sender: self)
     }
     
     @objc func panCameraLeft(_ sender: UIButton!) {
@@ -436,14 +463,12 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         }
         SCNTransaction.animationDuration = 0.5
         camera.localTranslate(by: SCNVector3(deltaX,0,deltaZ))
-        print(camera.position)
     }
     
     @objc func panCameraRight(_ sender: UIButton!) {
         guard let camera = cameraNode else { return }
         let currentPositionZInt = Int(camera.position.z)
         let currentPostionXInt = Int(camera.position.x)
-        //print(camera.position)
         let currentXZPosition = (currentPostionXInt, currentPositionZInt)
         var deltaX = -1
         var deltaZ = -1
@@ -479,7 +504,10 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         }
         SCNTransaction.animationDuration = 0.5
         camera.localTranslate(by: SCNVector3(deltaX,0,deltaZ))
-        print(camera.position)
+    }
+    
+    @objc func displayTips(_ sender: UIButton!) {
+        self.performSegue(withIdentifier: "toShowDiceTips", sender: self)
     }
     
     @objc func displayDiceSettings(_ sender: UIButton!) {
@@ -501,6 +529,8 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         rollButtonPressed = false
         stopMotion()
     }
+    
+    // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "toShowDiceSettings" {

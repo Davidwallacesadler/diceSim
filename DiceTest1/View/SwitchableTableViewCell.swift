@@ -33,7 +33,6 @@ class SwitchableTableViewCell: UITableViewCell {
     // MARK: - Actions
     
     @IBAction func switchPressed(_ sender: Any) {
-        //cellSwitch.isOn = !cellSwitch.isOn
         guard let cellDelegate = delegate, let cellId = identifier else { return }
         cellDelegate.switchValueChanged(forCellWithId: cellId, isOnStatus: cellSwitch.isOn)
     }
