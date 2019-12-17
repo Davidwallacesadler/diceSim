@@ -193,9 +193,9 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
         ("Black Marble", UIImage(named:"blackMarbleCellImage")!),
         ("White Marble", UIImage(named:"whiteMarbleCellImage")!),
         ("Wood", UIImage(named:"woodCellImage")!),
-        ("Tile", UIImage(named:"tile")!),
-        ("Concrete", UIImage(named:"concrete")!),
-        ("Carpet", UIImage(named:"carpet")!)
+        ("Tile", UIImage(named:"tileCellImage")!),
+        ("Concrete", UIImage(named:"concreteCellImage")!),
+        ("steel", UIImage(named:"steelCellImage")!)
     ]
     let wallTextureImagesAndNames: [(String,UIImage)] = [
         ("Twilight", UIImage(named:"twilightBackground")!),

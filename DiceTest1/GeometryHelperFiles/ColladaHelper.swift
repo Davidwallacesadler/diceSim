@@ -127,7 +127,6 @@ struct ColladaHelper {
                 default:
                 print("defaulting in colladaToSCNNode - using default texture (red)")
             }
-            //childNode.geometry?.firstMaterial?.diffuse.contents = UIImage(named: "D10_marble")
         }
         node.physicsBody = SCNPhysicsBody(type: .dynamic, shape: SCNPhysicsShape())
         node.physicsBody?.angularDamping = 0.5

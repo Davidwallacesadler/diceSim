@@ -109,6 +109,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="UAx-Z9-Yji" secondAttribute="height" multiplier="23:5" id="sqJ-ih-J88"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                                 <state key="normal" title="Got it">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
@@ -162,6 +163,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="yBu-e2-rTh" secondAttribute="height" multiplier="320:37" id="nID-DJ-y7h"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" name="AvenirNext-Medium" family="Avenir Next" pointSize="17"/>
                                 <state key="normal" title="Apply Changes">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>

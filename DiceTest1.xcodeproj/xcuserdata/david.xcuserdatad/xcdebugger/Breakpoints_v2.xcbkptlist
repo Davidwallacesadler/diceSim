@@ -47,8 +47,8 @@
             filePath = "DiceTest1/ViewController/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "355"
-            endingLineNumber = "355"
+            startingLineNumber = "360"
+            endingLineNumber = "360"
             landmarkName = "applyMotion()"
             landmarkType = "7">
          </BreakpointContent>
@@ -63,8 +63,8 @@
             filePath = "DiceTest1/ViewController/ViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "353"
-            endingLineNumber = "353"
+            startingLineNumber = "358"
+            endingLineNumber = "358"
             landmarkName = "applyMotion()"
             landmarkType = "7">
          </BreakpointContent>

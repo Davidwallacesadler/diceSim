@@ -7,8 +7,10 @@
 //
 
 import UIKit
+import MessageUI
+import StoreKit
 
-class AppSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class AppSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
     
     // MARK: - TableView Delegation
     
@@ -29,12 +31,28 @@ class AppSettingsViewController: UIViewController, UITableViewDataSource, UITabl
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        switch indexPath.row {
+            case 0:
+            showFeedbackEmail()
+            case 1:
+            rateApp()
+            case 2:
+            shareApp()
+            case 3:
+            // Purchase
+            print("purchase")
+            default:
+            return
+        }
+    }
+    
     
     // MARK: - Internal Properties
     
     //let appSettingsHeaderTitles = [""]
     let appSettingsTitles = ["Provide Feedback",
-                             "Rate on the Store",
+                             "Rate on the App Store",
                              "Share",
                              "Upgrade to Pro"
     ]
@@ -71,14 +89,38 @@ class AppSettingsViewController: UIViewController, UITableViewDataSource, UITabl
         tableView.dataSource = self
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func showFeedbackEmail() {
+        if MFMailComposeViewController.canSendMail() {
+            let mail = MFMailComposeViewController()
+            mail.mailComposeDelegate = self
+            mail.setToRecipients(["davidwallacesadler@gmail.com"])
+            mail.setSubject("Dice Roll Feedback")
+            present(mail, animated: true)
+        } else {
+            let couldNotAccessEmailAlert = UIAlertController(title: "Error Accessing Mail", message: "Could not access your mail account. Please try again once you have set up your default Apple mail app.", preferredStyle: .alert)
+            let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
+            couldNotAccessEmailAlert.addAction(okayAction)
+            present(couldNotAccessEmailAlert, animated: true)
+        }
     }
-    */
-
+    
+    #warning("Implement AppID and AppURL")
+    private func rateApp() {
+        if #available(iOS 10.3, *) {
+            SKStoreReviewController.requestReview()
+        } else {
+            let appId = ""
+            guard let url = URL(string: "itms://itunes.apple.com/app/" + appId) else {
+                return
+            }
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+    
+    private func shareApp() {
+        let appStoreURL = ""
+        let activityViewController = UIActivityViewController(activityItems: [appStoreURL], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
+    }
 }

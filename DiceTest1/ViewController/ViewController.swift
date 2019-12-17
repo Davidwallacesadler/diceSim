@@ -31,7 +31,7 @@ enum FloorTextures: Int {
     case wood
     case tile
     case concrete
-    case carpet
+    case steel
 }
 
 class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsDelegate {
@@ -198,7 +198,7 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         currentSceneView.overlaySKScene?.isHidden = false
         currentSceneView.overlaySKScene?.scaleMode = SKSceneScaleMode.resizeFill
         currentSceneView.overlaySKScene?.isUserInteractionEnabled = true
-        let infoButton = UIButton(frame: CGRect(x: self.view.bounds.maxX - ((self.view.bounds.maxX / 3.0) - 4.0), y: 27.0, width: (self.view.bounds.maxX / 3.0) - 4.0, height: 75.0))
+        let infoButton = UIButton(frame: CGRect(x: self.view.bounds.maxX - ((self.view.bounds.maxX / 3.0) - 2.0), y: 27.0, width: (self.view.bounds.maxX / 3.0) - 4.0, height: 75.0))
         infoButton.backgroundColor = UIColor(hue: 1.0, saturation: 1.0, brightness: 0, alpha: 0.2)
         infoButton.imageView?.contentMode = .scaleAspectFit
         infoButton.setImage(UIImage(named: "infoButtonIcon"), for: .normal)
@@ -222,27 +222,33 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         ViewHelper.roundCornersOf(viewLayer: diceSelectionButton.layer, withRoundingCoefficient: 3.0)
         currentSceneView.addSubview(diceSelectionButton)
         diceSelectionButton.addTarget(self, action: #selector(displayDiceSettings(_:)), for: .touchDown)
-        let panLeftButton = UIButton(frame: CGRect(x: 2.0, y: view.frame.height - 200.0, width: 75.0, height: 75.0))
+        let panLeftButton = UIButton(frame: CGRect(x: 0, y: view.frame.height - 100.0, width: view.frame.width / 5.0, height: 80.0))
+        panLeftButton.backgroundColor = UIColor(hue: 1.0, saturation: 1.0, brightness: 0, alpha: 0.2)
+        ViewHelper.roundCornersOf(viewLayer: panLeftButton.layer, withRoundingCoefficient: 3.0)
         panLeftButton.imageView?.contentMode = .scaleAspectFit
         panLeftButton.setImage(UIImage(named: "cameraPanLeftIcon"), for: .normal)
         panLeftButton.tintColor = .white
         currentSceneView.addSubview(panLeftButton)
         panLeftButton.addTarget(self, action: #selector(panCameraLeft(_:)), for: .touchDown)
-        let panRightButton = UIButton(frame: CGRect(x: view.frame.width - 75.0, y: view.frame.height - 200.0, width: 75.0, height: 75.0))
+        let panRightButton = UIButton(frame: CGRect(x: view.frame.width - (view.frame.width / 5.0), y: view.frame.height - 100.0, width: view.frame.width / 5.0, height: 80.0))
+        panRightButton.backgroundColor = UIColor(hue: 1.0, saturation: 1.0, brightness: 0, alpha: 0.2)
+        //ViewHelper.roundCornersOf(viewLayer: panRightButton.layer, withRoundingCoefficient: 3.0)
+        
         panRightButton.imageView?.contentMode = .scaleAspectFit
         panRightButton.setImage(UIImage(named: "cameraPanRightIcon"), for: .normal)
         panRightButton.tintColor = .white
         currentSceneView.addSubview(panRightButton)
         panRightButton.addTarget(self, action: #selector(panCameraRight(_:)), for: .touchDown)
-        let resetButton = UIButton(frame: CGRect(x: 0 , y: view.frame.height - 100, width: view.frame.width / 2.0, height: 80.0))
-        resetButton.backgroundColor = .clear
-        resetButton.imageView?.contentMode = .scaleAspectFit
-        resetButton.setImage(UIImage(named: "resetButtonIcon"), for: .normal)
-        currentSceneView.addSubview(resetButton)
-        resetButton.addTarget(self, action: #selector(resetButtonClicked), for: .touchDown)
-        resetButton.tintColor = .white
-        let reRollButton = UIButton(frame: CGRect(x: view.frame.width / 2.0 , y: view.frame.height - 100, width: view.frame.width / 2.0, height: 80.0))
-        reRollButton.backgroundColor = .clear
+//        let resetButton = UIButton(frame: CGRect(x: 0 , y: view.frame.height - 100, width: view.frame.width / 2.0, height: 80.0))
+//        resetButton.backgroundColor = .clear
+//        resetButton.imageView?.contentMode = .scaleAspectFit
+//        resetButton.setImage(UIImage(named: "resetButtonIcon"), for: .normal)
+//        currentSceneView.addSubview(resetButton)
+//        resetButton.addTarget(self, action: #selector(resetButtonClicked), for: .touchDown)
+//        resetButton.tintColor = .white
+        let reRollButton = UIButton(frame: CGRect(x: view.frame.width / 4.0 , y: view.frame.height - 100, width: view.frame.width / 2.0, height: 80.0))
+        reRollButton.backgroundColor = UIColor(hue: 1.0, saturation: 1.0, brightness: 0, alpha: 0.2)
+        ViewHelper.roundCornersOf(viewLayer: reRollButton.layer, withRoundingCoefficient: 3.0)
         reRollButton.imageView?.contentMode = .scaleAspectFit
         reRollButton.setImage(UIImage(named: "rollButtonIcon"), for: .normal)
         reRollButton.tintColor = .white
@@ -316,8 +322,8 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
             floorImage = UIImage(named: "tile")
             case FloorTextures.concrete.rawValue:
             floorImage = UIImage(named: "concrete")
-            case FloorTextures.carpet.rawValue:
-            floorImage = UIImage(named: "carpet")
+            case FloorTextures.steel.rawValue:
+            floorImage = UIImage(named: "steel")
             default:
             print("floor image is black marble -- defaulting")
         }
