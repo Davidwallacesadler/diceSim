@@ -12,6 +12,23 @@ import StoreKit
 
 class AppSettingsViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, MFMailComposeViewControllerDelegate {
     
+    // MARK: - MailComposeVC Delegation
+    
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        switch result {
+        case .sent:
+            let thankYouAlert = UIAlertController(title: "Feedback Sent", message: "Thank you for help in making Dice Roll Better! Your feedback will be carefully considered.", preferredStyle: .alert)
+            thankYouAlert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: { (_) in
+                controller.dismiss(animated: true, completion: nil)
+            }))
+            controller.present(thankYouAlert, animated: true, completion: nil)
+            return
+        default:
+            controller.dismiss(animated: true, completion: nil)
+            return
+        }
+    }
+    
     // MARK: - TableView Delegation
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -35,13 +52,13 @@ class AppSettingsViewController: UIViewController, UITableViewDataSource, UITabl
         switch indexPath.row {
             case 0:
             showFeedbackEmail()
-            case 1:
-            rateApp()
-            case 2:
-            shareApp()
-            case 3:
+            //case 1:
+            //rateApp()
+           // case 1:
+            //shareApp()
+            //case 3:
             // Purchase
-            print("purchase")
+            //print("purchase")
             default:
             return
         }
@@ -52,14 +69,14 @@ class AppSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     
     //let appSettingsHeaderTitles = [""]
     let appSettingsTitles = ["Provide Feedback",
-                             "Rate on the App Store",
-                             "Share",
-                             "Upgrade to Pro"
+                             //"Rate on the App Store",
+                             //"Share",
+                             //"Upgrade to Pro"
     ]
     let appSettingsImages = [UIImage(named: "feedbackIcon")!,
-                             UIImage(named: "rateIcon")!,
-                             UIImage(named: "shareIcon")!,
-                             UIImage(named: "purchaseIcon")!
+                             //UIImage(named: "rateIcon")!,
+                             //UIImage(named: "shareIcon")!,
+                             //UIImage(named: "purchaseIcon")!
     ]
     
     
@@ -68,17 +85,14 @@ class AppSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableViewDelegation()
-        ViewHelper.roundCornersOf(viewLayer: handleBarView.layer, withRoundingCoefficient: 7.0)
     }
     
     // MARK: - Outlets
     
     @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var handleBarView: UIView!
     
     // MARK: - Actions
-    
-    @IBAction func topHandleButtonPressed(_ sender: Any) {
+    @IBAction func doneButtonPressed(_ sender: Any) {
         self.dismiss(animated: true, completion: nil)
     }
     
@@ -97,7 +111,7 @@ class AppSettingsViewController: UIViewController, UITableViewDataSource, UITabl
             mail.setSubject("Dice Roll Feedback")
             present(mail, animated: true)
         } else {
-            let couldNotAccessEmailAlert = UIAlertController(title: "Error Accessing Mail", message: "Could not access your mail account. Please try again once you have set up your default Apple mail app.", preferredStyle: .alert)
+            let couldNotAccessEmailAlert = UIAlertController(title: "Error Accessing Mail", message: "Could not access your mail account. Please try again once you have set up your Apple Mail App.", preferredStyle: .alert)
             let okayAction = UIAlertAction(title: "Okay", style: .cancel, handler: nil)
             couldNotAccessEmailAlert.addAction(okayAction)
             present(couldNotAccessEmailAlert, animated: true)
@@ -120,7 +134,12 @@ class AppSettingsViewController: UIViewController, UITableViewDataSource, UITabl
     private func shareApp() {
         let appStoreURL = ""
         let activityViewController = UIActivityViewController(activityItems: [appStoreURL], applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        self.present(activityViewController, animated: true, completion: nil)
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            self.present(activityViewController, animated: true, completion: nil)
+        } else {
+            let popup = UIPopoverController(contentViewController: activityViewController)
+            popup.present(from: CGRect(x: self.view!.frame.size.width / 2, y: self.view!.frame.size.height / 4, width: 0, height: 0), in: self.view!, permittedArrowDirections: .any, animated: true)
+        }
     }
 }

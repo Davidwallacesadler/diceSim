@@ -239,13 +239,6 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         panRightButton.tintColor = .white
         currentSceneView.addSubview(panRightButton)
         panRightButton.addTarget(self, action: #selector(panCameraRight(_:)), for: .touchDown)
-//        let resetButton = UIButton(frame: CGRect(x: 0 , y: view.frame.height - 100, width: view.frame.width / 2.0, height: 80.0))
-//        resetButton.backgroundColor = .clear
-//        resetButton.imageView?.contentMode = .scaleAspectFit
-//        resetButton.setImage(UIImage(named: "resetButtonIcon"), for: .normal)
-//        currentSceneView.addSubview(resetButton)
-//        resetButton.addTarget(self, action: #selector(resetButtonClicked), for: .touchDown)
-//        resetButton.tintColor = .white
         let reRollButton = UIButton(frame: CGRect(x: view.frame.width / 4.0 , y: view.frame.height - 100, width: view.frame.width / 2.0, height: 80.0))
         reRollButton.backgroundColor = UIColor(hue: 1.0, saturation: 1.0, brightness: 0, alpha: 0.2)
         ViewHelper.roundCornersOf(viewLayer: reRollButton.layer, withRoundingCoefficient: 3.0)
@@ -267,7 +260,7 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         var wallImage = UIImage(named:"twilightBackground")!
         switch UserDefaults.standard.integer(forKey: Keys.selectedWallTexturePack) {
             case WallTextures.seafoam.rawValue:
-            wallImage = UIImage(named:"seafoamBackground")!
+            wallImage = UIImage(named:"seaFoamBackground")!
             case WallTextures.sky.rawValue:
             wallImage = UIImage(named:"skyBlueBackground")!
             case WallTextures.dawn.rawValue:
@@ -384,9 +377,6 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
                             let z = data.acceleration.z
                             let threshold = 0.001
                             let forceVector = SCNVector3(x * 10.0,0,-x * 10.0)
-                            //let forceVector = SCNVector3(0.005,0.005,0.005)
-                            //let torqueVector = SCNVector4(10,-10,10,1)
-                            //let forceVector = SCNVector3(z > threshold ? -z * 50 : 0, y > threshold ? y * 50 : 0, z > threshold ? -x * 50 : 0)
                             let torqueVector = SCNVector4(x > threshold ? x * 30 : 1, y > threshold ? y * 30 : 1, z > threshold ? z * 30 : 1, 1)
                             for node in self.diceNodes {
                                 node.physicsBody?.velocity = forceVector

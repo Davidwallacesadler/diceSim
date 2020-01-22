@@ -85,16 +85,16 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
         let currentTotalCount = diceAndCounts.reduce(0) { (x, y) -> Int in
               x + y.value
         }
-        if currentDiceCount < 5 {
+        if currentDiceCount < totalDiceCount {
             currentDiceCount = currentTotalCount
-            if currentTotalCount == 5 {
+            if currentTotalCount == totalDiceCount {
                 shouldRestrictAddingDice = true
                 updateIncrementableCells()
             }
             print(diceAndCounts.description)
         }
-        if currentDiceCount >= 5 {
-            if currentTotalCount < 5 {
+        if currentDiceCount >= totalDiceCount {
+            if currentTotalCount < totalDiceCount {
                 currentDiceCount = currentTotalCount
                 shouldRestrictAddingDice = false
                 updateIncrementableCells()
@@ -104,8 +104,7 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
 
     func switchValueChanged(forCellWithId: Int, isOnStatus: Bool) {
         if forCellWithId == 0 {
-            UserDefaults.standard.set(isOnStatus, forKey: Keys.automaticDiceRolling)
-            print("Automatic Rolling: \(isOnStatus)")
+            userUpdatedRollingMode = !userUpdatedRollingMode
         }
     }
     #warning("New Texture for D4")
@@ -157,7 +156,6 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
             incrementableCell.key = diceSettingsOptionLabels[indexPath.row]
             incrementableCell.currentCount = diceAndCounts[diceSettingsOptionLabels[indexPath.row]]!
             incrementableCell.updateCountLabel()
-            incrementableCell.diceIconImageView.tintColor = .white
             incrementableCell.diceIconImageView.image = UIImage(named: diceIconNames[indexPath.row])
             if shouldRestrictAddingDice {
                 incrementableCell.upArrowButton.tintColor = .lightGray
@@ -180,6 +178,7 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     // MARK: - Internal Properties
+    var userUpdatedRollingMode = false
     var delegate: DiceSettingsDelegate?
     let diceTextureImagesAndNames: [(String,UIImage)] = [
         ("Red and White", UIImage(named:"redDiceCellImage")!),
@@ -199,12 +198,13 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
     ]
     let wallTextureImagesAndNames: [(String,UIImage)] = [
         ("Twilight", UIImage(named:"twilightBackground")!),
-        ("SeaFoam", UIImage(named:"seafoamBackground")!),
+        ("SeaFoam", UIImage(named:"seaFoamBackground")!),
         ("Sky Blue", UIImage(named:"skyBlueBackground")!),
         ("Dawn", UIImage(named:"dawnBackground")!),
         ("Midnight", UIImage(named:"midnightBackground")!),
         ("Salmon", UIImage(named:"salmonBackground")!)
     ]
+    var totalDiceCount = 5
     var selectedDiceTexture: Int?
     var selectedFloorTexture: Int?
     var selectedWallTexture: Int?
@@ -257,7 +257,17 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
     
     // MARK: - Actions
     
+    
+    @IBAction func dismissButtonPressed(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     @IBAction func applyButtonPressed(_ sender: Any) {
+        if userUpdatedRollingMode {
+            let currentAutoRollingStatus = UserDefaults.standard.bool(forKey: Keys.automaticDiceRolling)
+            UserDefaults.standard.set(!currentAutoRollingStatus, forKey: Keys.automaticDiceRolling)
+            print("setting the rolling status")
+        }
         let diceAndCountsToPass = prepareSelectedDiceData()
         guard let sceneKitSpawningDelegate = delegate else { return }
         if let diceTexture = selectedDiceTexture {
@@ -273,7 +283,6 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
         }
         sceneKitSpawningDelegate.updateSpawnedDice(dicePathsAndCounds: diceAndCountsToPass)
         self.dismiss(animated: true, completion: nil)
-        // call VC delegate
     }
     
     // MARK: - Internal Methods
@@ -284,7 +293,7 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
             diceAndCounts[pair.0] = pair.1
             currentDiceCount += pair.1
         }
-        if currentDiceCount == 5 {
+        if currentDiceCount == totalDiceCount {
             shouldRestrictAddingDice = true
         }
     }
