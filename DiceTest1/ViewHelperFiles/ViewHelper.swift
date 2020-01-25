@@ -21,4 +21,8 @@ struct ViewHelper {
         viewLayer.borderColor = UIColor.systemBlue.cgColor
         viewLayer.masksToBounds = true
     }
+    static func roundTopTwoCornersOf(viewLayer: CALayer,withRoundingCoefficient rounding: Double) {
+        viewLayer.cornerRadius = CGFloat(rounding)
+        viewLayer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+    }
 }

@@ -14,7 +14,7 @@ class TipsViewController: UIViewController {
     
     let tips = ["Press and hold the roll button to shake the dice and let go when you want to finish the roll. Shake your phone or enable automatic rolling to move the dice around.",
                 "Use the camera panning buttons to move the camera either right or left.",
-                "To change the amount or type of dice you are using tap the dice settings button. If you have Dice Roll Premium you can also get access to additional dice and room textures!"
+                "To change the amount or type of dice you are using tap the dice settings button."
     ]
     let tipIcons = [UIImage(named:"rollDiceTipIcon")!,
                     UIImage(named:"panCameraTipIcon")!,

@@ -48,6 +48,8 @@
 		63DAAD9222E3DC9E009DC288 /* SCNVector3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DAAD9122E3DC9E009DC288 /* SCNVector3.swift */; };
 		63DD69C222C009FE00621FBF /* SideNumberGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DD69C122C009FE00621FBF /* SideNumberGenerator.swift */; };
 		63DD69C622C2F57700621FBF /* DistanceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63DD69C522C2F57700621FBF /* DistanceHelper.swift */; };
+		902DEE0123D93DEB00C0FBAE /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902DEE0023D93DEB00C0FBAE /* OnboardingPageViewController.swift */; };
+		902DEE0323D9425100C0FBAE /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 902DEE0223D9425100C0FBAE /* Color.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -94,6 +96,8 @@
 		63DAAD9122E3DC9E009DC288 /* SCNVector3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNVector3.swift; sourceTree = "<group>"; };
 		63DD69C122C009FE00621FBF /* SideNumberGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideNumberGenerator.swift; sourceTree = "<group>"; };
 		63DD69C522C2F57700621FBF /* DistanceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistanceHelper.swift; sourceTree = "<group>"; };
+		902DEE0023D93DEB00C0FBAE /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
+		902DEE0223D9425100C0FBAE /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +178,7 @@
 				637A2C612394463D00DF30AA /* DiceSettingsViewController.swift */,
 				637A2C7323A3E32100DF30AA /* AppSettingsViewController.swift */,
 				637A2C7523A557C300DF30AA /* TipsViewController.swift */,
+				902DEE0023D93DEB00C0FBAE /* OnboardingPageViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 				637A2C53238DF09200DF30AA /* SlideInPresentationController.swift */,
 				637A2C6323975F6500DF30AA /* ViewHelper.swift */,
 				637A2C6D23980DBC00DF30AA /* FirstLaunch.swift */,
+				902DEE0223D9425100C0FBAE /* Color.swift */,
 			);
 			path = ViewHelperFiles;
 			sourceTree = "<group>";
@@ -335,7 +341,9 @@
 				6351DDDB225DBC0700C26EA1 /* NormalGenerator.swift in Sources */,
 				637A2C6B23980B8300DF30AA /* CollectionViewTableViewCell.swift in Sources */,
 				6311C0E122D0698B009A815E /* ColladaHelper.swift in Sources */,
+				902DEE0323D9425100C0FBAE /* Color.swift in Sources */,
 				6351DDE6226517E800C26EA1 /* ContainerController.swift in Sources */,
+				902DEE0123D93DEB00C0FBAE /* OnboardingPageViewController.swift in Sources */,
 				6351DDEB2267E7E000C26EA1 /* GeometryParameters.swift in Sources */,
 				6351DDEF2267EAD100C26EA1 /* Geometry.swift in Sources */,
 				632650332282754C0025E10C /* DiceCountPickerView.swift in Sources */,

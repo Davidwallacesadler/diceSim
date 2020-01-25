@@ -22,6 +22,7 @@
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hpp-Y6-9JC">
                                 <rect key="frame" x="0.0" y="0.0" width="23.5" height="50"/>
+                                <color key="tintColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" image="chevron.down" catalog="system"/>
                                 <connections>
                                     <action selector="downButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="79o-9T-9Oa"/>
@@ -35,6 +36,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TPy-iP-5cc">
                                 <rect key="frame" x="76.5" y="0.0" width="23.5" height="50"/>
+                                <color key="tintColor" systemColor="systemIndigoColor" red="0.34509803919999998" green="0.33725490200000002" blue="0.83921568629999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" image="chevron.up" catalog="system"/>
                                 <connections>
                                     <action selector="upButtonPressed:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hky-Ng-Vzs"/>

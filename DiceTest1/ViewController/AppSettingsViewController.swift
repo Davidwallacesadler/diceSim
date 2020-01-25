@@ -39,11 +39,10 @@ class AppSettingsViewController: UIViewController, UITableViewDataSource, UITabl
         let cell = tableView.dequeueReusableCell(withIdentifier: "disclosureCell", for: indexPath)
         cell.textLabel?.text = appSettingsTitles[indexPath.row]
         cell.imageView?.image = appSettingsImages[indexPath.row]
-        switch self.traitCollection.userInterfaceStyle {
-            case .dark:
-            cell.imageView?.tintColor = .white
-            default:
-            cell.imageView?.tintColor = .darkGray
+        if #available(iOS 13.0, *) {
+            cell.imageView?.tintColor = .systemIndigo
+        } else {
+            cell.imageView?.tintColor = .diceRollIndigo
         }
         return cell
     }

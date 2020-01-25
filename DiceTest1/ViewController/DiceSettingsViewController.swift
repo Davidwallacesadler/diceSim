@@ -161,7 +161,7 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
                 incrementableCell.upArrowButton.tintColor = .lightGray
                 incrementableCell.incrementingIsDisabled = true
             } else {
-                incrementableCell.upArrowButton.tintColor = .systemBlue
+                incrementableCell.upArrowButton.tintColor = .diceRollIndigo
                 incrementableCell.incrementingIsDisabled = false
             }
             return incrementableCell
@@ -194,7 +194,7 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
         ("Wood", UIImage(named:"woodCellImage")!),
         ("Tile", UIImage(named:"tileCellImage")!),
         ("Concrete", UIImage(named:"concreteCellImage")!),
-        ("steel", UIImage(named:"steelCellImage")!)
+        ("Steel", UIImage(named:"steelCellImage")!)
     ]
     let wallTextureImagesAndNames: [(String,UIImage)] = [
         ("Twilight", UIImage(named:"twilightBackground")!),
@@ -250,9 +250,13 @@ class DiceSettingsViewController: UIViewController, UITableViewDelegate, UITable
         super.viewDidLoad()
         registerCustomCells()
         setupTableViewDelegation()
+        ViewHelper.roundCornersOf(viewLayer: dismissHandle.layer, withRoundingCoefficient: 5.0)
+        ViewHelper.roundTopTwoCornersOf(viewLayer: applyButton.layer, withRoundingCoefficient: 25.0)
     }
     // MARK: - Outlets
     
+    @IBOutlet weak var applyButton: UIButton!
+    @IBOutlet weak var dismissHandle: UIButton!
     @IBOutlet weak var tableView: UITableView!
     
     // MARK: - Actions

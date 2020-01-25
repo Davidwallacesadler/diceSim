@@ -144,6 +144,12 @@ class ViewController: UIViewController, SCNPhysicsContactDelegate, DiceSettingsD
         spawnInitialDice()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        if UserDefaults.standard.bool(forKey: Keys.onboarding) {
+            self.performSegue(withIdentifier: "toShowOnboardingPage", sender: self)
+        }
+    }
+    
     // MARK: - Internal Methods
     
     private func setupSceneAndWorldPhysics() {
